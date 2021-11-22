@@ -7,5 +7,4 @@ export interface SocialMedia {
     text: string;
     icon: string;
     to: string;
-
   }
