@@ -1,11 +1,24 @@
 <template>
     <header class="header">
-        <nav class="header__nav">
-            <div class="link__icon-wrapper">
+        <nav ref="nav" class="header__nav">
+          <div
+            v-for="link in navigation"
+            :key="link.icon"
+            :class="[
+              'header__link-wrapper',
+              { 'header__link-wrapper--active': selectedRoute === link.to },
+            ]"
+            @click="onSelectRoute(link.to)"
+          >
+            <NuxtLink class="header__link link" :to="link.to" :exact="true">
+              <div class="link__icon-wrapper">
                 <svg class="link__icon">
-                    <use href='@/assets/sprite.svg#home' />
+                  <use :href="iconPath(link.icon)" />
                 </svg>
-            </div>
+              </div>
+              <span class="link__text">{{ link.text }}</span>
+            </NuxtLink>
+          </div>
         </nav>
     </header>
 </template>
@@ -13,10 +26,86 @@
 
 <script lang="ts">
     import Vue from 'vue'
+    import gsap from 'gsap'
+    import { navigation } from '@/data/navigation'
+    import { NavigationItem } from '@/types/links'
+    
 
     export default Vue.extend({
+      data(){
+        return{
+          navigation: navigation as NavigationItem[],
+          selectedRoute: ''
+
+        }
+      },
+      mounted() {
+ 
+        this.animateHeader();
+      },
+      methods:{
+        iconPath(icon: string): string {
+          return require('@/assets/sprite.svg') + '#' + icon;
+        },
+        onSelectRoute(link: string): void {
+          this.selectedRoute = link;
+        },
+        animateNav(
+      nav: Element,
+      yPercent: number,
+      duration: number,
+      delay: number
+    ): void {
+      gsap.set(nav, {
+        autoAlpha: 0,
+        yPercent,
+      });
+      gsap.to(nav, {
+        autoAlpha: 1,
+        yPercent: 0,
+        ease: 'ease.in',
+        duration,
+        delay,
+      });
+    },
+    animateLinkIcons(
+      linkIcons: NodeListOf<Element>,
+      yPercent: number,
+      duration: number,
+      delay: number
+    ): void {
+      gsap.set(linkIcons, {
+        autoAlpha: 0,
+        yPercent,
+      });
+      gsap.to(linkIcons, {
+        autoAlpha: 1,
+        yPercent: 0,
+        ease: 'elastic',
+        delay,
+        duration,
+        stagger: {
+          amount: 0.5,
+        },
+      });
+    },
+    animateHeader(): void {
+      const nav = this.$refs.nav as Element;
+      const linkIcons = nav.querySelectorAll('.link__icon');
+      if (window.innerWidth < 1024) {
+        this.animateNav(nav, 100, 0.5, 2);
+        this.animateLinkIcons(linkIcons, 50, 1, 2.5);
+      } else {
+        this.animateNav(nav, 0, 0, 0);
+        this.animateLinkIcons(linkIcons, -50, 1, 0);
+      }
+    },
+      },
+      
+      
+    });
         
-    })
+
 </script>
 
 <style scoped lang="scss">
@@ -189,5 +278,4 @@
     transform: scale(1, 1) translateY(0);
   }
 }
-
 </style>
