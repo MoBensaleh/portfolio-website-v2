@@ -46,3 +46,6 @@
 	--background: #{$primary-dark};
 	--shadow: #{$stroke};
 }
+body{
+	background-color: var(--background);
+}

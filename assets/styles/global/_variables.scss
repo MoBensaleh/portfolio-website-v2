@@ -1,14 +1,14 @@
 @use '~/assets/styles/mixins/mixins' as *;
 
 
-$primary-light: #b8c1ec;
-$primary-dark: #232946;
+$primary-light: #CCD7F5;
+$primary-dark: #0A192E;
 $secondary-light: #fffffe;
 $secondary-dark: #dfdfdf;
-$tertiary: #eebbc3;
-$tertiary-dark: #bf959b;
-$tertiary-light: #ffdde2;
-$stroke: #121629;
+$tertiary: #C5C6C7;
+$tertiary-dark: #a0a0a1;
+$tertiary-light: #d9dadb;
+$stroke: #0B0C10;
 
 $border-radius: rem(10px);
 $border: rem(1px) solid var(--stroke);

@@ -1,5 +1,5 @@
 <template>
-    <header class="header">
+    <header class="header flex justify-end lg:justify-between">
         <nav ref="nav" class="header__nav">
           <div
             v-for="link in navigation"
@@ -20,6 +20,7 @@
             </NuxtLink>
           </div>
         </nav>
+        <button-dark-mode class="mr-6"/>
     </header>
 </template>
 
@@ -40,7 +41,6 @@
         }
       },
       mounted() {
- 
         this.animateHeader();
       },
       methods:{
@@ -101,8 +101,6 @@
       }
     },
       },
-      
-      
     });
         
 
@@ -113,7 +111,7 @@
 @use '~/assets/styles/mixins/mixins' as *;
 .header {
   @include size(100%, auto);
-  @include flex(center, flex-end);
+
   max-width: $max-width;
   position: relative;
   margin-left: auto;
@@ -219,7 +217,7 @@
     @include size(rem(20px), rem(20px));
     @include flex(center, center);
     @media screen and (min-width: 1024px) {
-      @include size(rem(32px), rem(32px));
+      @include size(rem(28px), rem(28px));
       fill: var(--background);
       color: var(--primary);
     }
