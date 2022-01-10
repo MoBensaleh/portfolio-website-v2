@@ -111,7 +111,6 @@
 @use '~/assets/styles/mixins/mixins' as *;
 .header {
   @include size(100%, auto);
-
   max-width: $max-width;
   position: relative;
   margin-left: auto;
@@ -131,7 +130,7 @@
       position: unset;
       flex-basis: 35%;
       justify-content: space-between;
-      margin-top: auto;
+      margin-top: 16px;
       border-top: none;
       padding-left: 10px;
       background-color: transparent;

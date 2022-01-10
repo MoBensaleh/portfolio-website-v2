@@ -94,6 +94,7 @@ export default Vue.extend({
 .switch {
   @include size(rem(45px), rem(90px));
   @include flex(center, center, column);
+  margin-top: -16px;
   transform: rotate(90deg);
   position: relative;
   border-radius: $border-radius;
