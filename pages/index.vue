@@ -2,12 +2,21 @@
   <div>
 
     <TheHeader />
+    
     <section ref="hero" class="hero">
       <div ref="heroGroup" class="hero__group">
         <div ref="heroText" class="hero__text" >
-          <rich-text tag="h1" class="text-6xl">Hi!</rich-text>
-          <rich-text tag="h1" class="text-6xl">I'm {{about.firstName}}<span>.</span></rich-text>
+          <div class="flex row items-baseline">
+            <rich-text tag="h1" class="text-6xl mr-3">Hi</rich-text>
+            <span class="wave"><img src="@/assets/images/Hand.gif"></span>
+            <rich-text tag="h1" class="text-6xl">,</rich-text>
+          </div>
+          <div class="flex row">
+            <rich-text tag="h1" class="text-6xl">I'm {{about.firstName}}</rich-text>
+            <rich-text tag="h1" class="text-6xl dot">.</rich-text>
+          </div>
         </div>
+        <base-button :buttonText="'sddsdsd'"></base-button>
       </div>
     </section>
       
@@ -22,9 +31,10 @@ import { gsap } from 'gsap';
 import RichText from '~/components/RichText.vue'
 import { About } from '@/types/pages'
 import { about } from '@/data/about'
+import BaseButton from '~/components/BaseButton.vue';
 
 export default Vue.extend({
-  components: { RichText },
+  components: { RichText, BaseButton },
 
   data(){
     return{
@@ -73,9 +83,21 @@ export default Vue.extend({
 <style lang="scss" scoped>
 @use '~/assets/styles/global/variables' as *;
 @use '~/assets/styles/mixins/mixins' as *;
+
+.wave{
+  width:40px;
+  height: auto;
+  position: relative;
+  top:3px;
+  @media screen and (min-width: 1024px) {
+    width: 60px;
+  }
+
+}
 .hero {
   position: fixed;
   top: 0 !important;
+  bottom: 49px !important; 
   transform: translateY(0) !important;
   @include flex(flex-start, center, column);
   @include size(100%, 100%);
@@ -84,6 +106,7 @@ export default Vue.extend({
   visibility: hidden;
   @media screen and (min-width: 1024px) {
     @include flex(center, center, column);
+    bottom: 0 !important; 
   }
   &__group {
     visibility: hidden;
