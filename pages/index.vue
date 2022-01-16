@@ -13,7 +13,7 @@
             <rich-text tag="h1" class="text-6xl">I'm {{about.firstName}}</rich-text>
             <rich-text tag="p" class="text-lg dot">.</rich-text>
           </div>
-          <rich-text tag="p" class="text-lg ">I'm a  </rich-text>
+          <rich-text tag="p" class="text-lg ">I'm a  <h6  ref="title" class="inline"></h6><span ref="cursor" class="dot ">_</span></rich-text>
 
         </div>
         <div class="inline-flex mt-9 hero__buttons">
@@ -26,14 +26,19 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" >
 import Vue from 'vue'
-import { gsap } from 'gsap';
-import { TextPlugin } from 'gsap/TextPlugin';
+import { gsap } from "gsap";
+import { TextPlugin } from "gsap/TextPlugin";
 import RichText from '~/components/RichText.vue'
 import { About } from '@/types/pages'
 import { about } from '@/data/about'
 import BaseButton from '~/components/BaseButton.vue';
+
+if (process.client) {
+  gsap.registerPlugin(TextPlugin);
+}
+
 
 export default Vue.extend({
   components: { RichText, BaseButton },
@@ -44,7 +49,20 @@ export default Vue.extend({
     }
   },
    mounted() {
+    const titleRef = this.$refs.title as Element;
+    const cursor = this.$refs.cursor as Element;
+    gsap.to(cursor, {opacity:0, ease: "power2.inOut", repeat:-1})
+   
+    const words = ["Computer Science student.", "Software Developer.", "Web Developer."];
+    const masterTl = gsap.timeline({repeat: -1})
+
     this.animateHero();
+    
+    words.forEach(word => {
+      const tl = gsap.timeline({repeat: 1, yoyo: true, repeatDelay:1})
+      tl.to(titleRef, {duration: 1, text: word})
+      masterTl.add(tl)
+    })
   },
   methods: {
     animateHero(): void {
@@ -77,6 +95,17 @@ export default Vue.extend({
       });
     
     },
+
+    textAnimation(elem: Element, text: string): gsap.core.Tween {
+      return gsap.to(elem, {
+        id: 'textAnimation',
+        duration: text.length / 16,
+        text: {
+          value: text,
+        },
+        ease: 'none',
+      });
+    },
   },
 
 })
@@ -87,18 +116,17 @@ export default Vue.extend({
 @use '~/assets/styles/mixins/mixins' as *;
 
 #profile_pic{
-    width:200px;
+    width:220px;
     @include flex(center, center, row);
     filter: url(#dropshadow);
     transition: filter 0.15s linear;
-    border:10px solid black;
+    border:10px solid var(--primary);
     border-radius: $border-radius;
     background: rgba(251, 249, 243, 0.06);
-    border-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='100' height='100' viewBox='0 0 100 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cstyle%3Epath%7Banimation:stroke 5s infinite linear%3B%7D%40keyframes stroke%7Bto%7Bstroke-dashoffset:776%3B%7D%7D%3C/style%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232d3561' /%3E%3Cstop offset='25%25' stop-color='%23c05c7e' /%3E%3Cstop offset='50%25' stop-color='%23f3826f' /%3E%3Cstop offset='100%25' stop-color='%23ffb961' /%3E%3C/linearGradient%3E %3Cpath d='M1.5 1.5 l97 0l0 97l-97 0 l0 -97' stroke-linecap='square' stroke='url(%23g)' stroke-width='3' stroke-dasharray='388'/%3E %3C/svg%3E") 1;
     min-height: 3em;
     resize: both;
     object-fit: cover;
-    margin-top: rem(25px);
+    margin-top: rem(35px);
     @media screen and (min-width: 1024px) {
       width: 280px;
     }
