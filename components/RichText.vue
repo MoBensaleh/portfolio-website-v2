@@ -21,7 +21,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @use '~/assets/styles/global/variables' as *;
+@use '~/assets/styles/global/variables' as *;
 @use '~/assets/styles/mixins/mixins' as *;
 .rich-text {
   font-weight: var(--font-weight-normal);
@@ -36,6 +36,8 @@
   }
   p {
     line-height: 1.75;
+    font-weight: var(--font-weight-normal);
+    font-family: Open sans, sans-serif;
   }
   img {
     @include size(75%, 75%);

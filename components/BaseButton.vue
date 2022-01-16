@@ -17,13 +17,12 @@ export default Vue.extend({
   name: 'Button',
   props: {
     buttonText: {
-      required: false,
+      required: true,
       type: String
     },
     buttonLink:{
-
+      required: true,
       type: String
-
     }
   },
 });

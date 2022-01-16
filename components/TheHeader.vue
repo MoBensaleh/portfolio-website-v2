@@ -20,7 +20,7 @@
             </NuxtLink>
           </div>
         </nav>
-        <button-dark-mode class="mr-6"/>
+        <button-dark-mode class="mr-7"/>
     </header>
 </template>
 
