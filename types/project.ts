@@ -1,5 +1,5 @@
 export interface Project {
-    name: string,
+    title: string,
     picture: string,
     description: string,
     live: string,

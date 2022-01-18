@@ -1,13 +1,22 @@
 <template>
-    <div class="flex justify-center">
+    <div >
         <TheHeader />
-        <section ref="project" class="project">
+        <section ref="project" class="projects">
             <div ref="projectGroup" class="project__group">
                 <div ref="projectText" class="project__text" >
                     <rich-text tag="h1" class="text-6xl mr-3">Projects</rich-text>
                 </div>
-                <div class="mt-9 projects__container">
- 
+                <div class="mt-9 projects__list-wrapper">
+                    <ul class="projects__list">
+                        <li
+                        v-for="project in projects" 
+                        :key="project.title"
+                        class="projects__project list-complete-item"
+                        >
+                        <project-card :key="project.title" :project="project"></project-card>
+                        </li>
+
+                    </ul>
                 </div>
             </div>
         </section>
@@ -17,13 +26,16 @@
 <script lang="ts">
 import { gsap } from "gsap";
 import RichText from '~/components/RichText.vue'
+import ProjectCard from '~/components/ProjectCard.vue'
 import { projects } from '~/data/projects'
 import { Project } from '~/types/project'
     export default {
         components: {
-            RichText
+            RichText,
+            ProjectCard 
         },
      
+   
         data() {
             return {
                 projects: projects as Project[]
@@ -70,53 +82,50 @@ import { Project } from '~/types/project'
 <style lang="scss" scoped>
 @use '~/assets/styles/global/variables' as *;
 @use '~/assets/styles/mixins/mixins' as *;
-
-.project {
-  transform: translateY(0) !important;
-  @include flex(center, center, column);
-  @include size(100%, 100%);
-  margin-top: auto;
+.projects {
+  @include size(100%, auto);
   color: var(--primary);
-  visibility: hidden;
-  position: fixed;
   max-width: $max-width;
-  top: 0 !important;
-  bottom: 49px !important; 
-  @media screen and (min-width: 1024px) {
-    flex-direction: row;
-    align-items: start;
+  margin-right:auto;
+    margin-left:auto;
+  padding: 0 rem(25px) rem($nav-height);
+  &__list-wrapper {
+    // visibility: hidden; 
+  }
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(max(250px, calc((100% - 50px) / 2)), 1fr)
+    );
     justify-content: center;
-    margin-top: rem(110px);
-    bottom: 0 !important; 
+    gap: rem(50px);
+    margin-top: rem(50px);
+    @media screen and (min-width: 1024px) {
+      grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
+      justify-content: flex-start;
+      gap: rem(100px);
+      margin-top: rem(100px);
+    }
   }
-  &__group {
+}
+.list-complete {
+  will-change: transform;
+  &-item {
+    transition-property: opacity, transform;
+    transition-duration: 0.75s;
+    transition-timing-function: ease-in-out;
+  }
+  &-enter {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+    &-item {
+      transition-delay: 0.5s;
+    }
+  }
+  &-leave-active {
+    position: absolute;
     visibility: hidden;
-    padding: 0 rem(30px);
-    position: relative;
-    @media screen and (min-width: 1024px) {
-      @include size(100%, auto);
-      padding: auto;
-    }
-  }
-  &__points {
-    display: none;
-    @media screen and (min-width: 1024px) {
-      @include size(100%, 100%);
-      @include absolute(-60px, auto, auto, -55px);
-      display: block;
-      max-height: rem(100px);
-      max-width: rem(100px);
-      color: var(--tertiary);
-    }
-  }
-  &__text {
-    display: none;
-    position: relative;
-    z-index: 1;
-    @media screen and (min-width: 1024px) {
-      @include flex(flex-start, start, row);
-  
-    }
   }
 }
 

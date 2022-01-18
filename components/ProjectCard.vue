@@ -1,38 +1,37 @@
-<!-- <template>
+<template>
   <section class="project">
     <div class="project__group">
       <h2 class="project__title">
         <span class="dot">></span>
-        <span :ref="title">{{title}}</span
-        ><span :ref="cursor" class="dot">_</span>
+        <span ref="title">{{project.title}}</span
+        ><span ref="cursor" class="dot">_</span>
       </h2>
       <p class="project__description">
-        {{ description }}
+        {{ project.description }}
       </p>
       <div class="project__links">
-        <MyLink
-          v-if="blok.demo.url"
+        <a
+          v-if="project.live"
           class="project__link"
-          :link="blok.demo.url"
-          @mouseenter.native="onLinkHover('Play with it')"
+          :href="project.live"
         >
           Live
-        </MyLink>
-        <MyLink
-          v-if="blok.code.url"
+        </a>
+        <a
+          v-if="project.github"
           class="project__link"
-          :link="blok.code.url"
-          @mouseenter.native="onLinkHover('Check code')"
+          :href="project.github"
         >
           Code
-        </MyLink>
+        </a>
       </div>
     </div>
     <div class="project__media">
-      <div :ref="`${blok._uid}-window`" class="window">
+      <div ref="project-window" class="window">
         <div class="window__header">
           <svg class="window__buttons">
             <circle
+              class="exit"
               stroke-width="2"
               stroke="currentColor"
               cx="12"
@@ -40,6 +39,7 @@
               r="4"
             />
             <circle
+              class="minimize"
               stroke-width="2"
               stroke="currentColor"
               cx="28"
@@ -47,6 +47,7 @@
               r="4"
             />
             <circle
+              class="maximize"
               stroke-width="2"
               stroke="currentColor"
               cx="44"
@@ -54,18 +55,14 @@
               r="4"
             />
           </svg>
-          <span class="window__title">{{ blok.title }}</span>
+          <span class="window__title">{{ project.title }}</span>
         </div>
-        <MyImage
+        <img
+          :src="project.picture"
           class="window__image"
-          :blok="{
-            image: {
-              filename: blok.media.filename,
-              alt: blok.media.alt,
-            },
-            width: 370,
-            height: 231.25,
-          }"
+          width: 370,
+          height: 231.25,
+        
         />
       </div>
     </div>
@@ -75,15 +72,12 @@
 <script lang="ts">
 import Vue from 'vue';
 import { gsap } from 'gsap';
-import { TextPlugin } from 'gsap/TextPlugin';
-import { Project } from '~/types/components';
-if (process.client) {
-  gsap.registerPlugin(TextPlugin);
-}
+import { Project } from '~/types/project';
+
 export default Vue.extend({
-  name: 'MyProject',
+  name: 'ProjectCard',
   props: {
-    blok: {
+    project: {
       type: Object as () => Project,
       default: () => ({} as Project),
     },
@@ -100,108 +94,108 @@ export default Vue.extend({
       windowObserver: null as unknown as IntersectionObserver,
     };
   },
-  mounted() {
-    const cursorRef = this.$refs[`${this.blok._uid}-cursor`] as Element;
-    const titleRef = this.$refs[`${this.blok._uid}-title`] as Element;
-    const windowRef = this.$refs[`${this.blok._uid}-window`] as Element;
-    this.cursorTimeline = this.createCursorTimeline(cursorRef).pause(0.5);
-    this.titleTimeline = this.createTitleTimeline(
-      titleRef,
-      this.blok.title
-    ).pause(0);
-    this.titleScrollTimeline = this.createTitleTimeline(
-      titleRef,
-      this.blok.title
-    )
-      .pause(0)
-      .add(this.cursorTimeline.play(0));
-    this.windowObserver = this.$elevateAnimationObserver(windowRef);
-    this.titleObserver = this.createTitleObserver(
-      titleRef,
-      this.titleScrollTimeline
-    );
-  },
-  beforeDestroy() {
-    this.titleTimeline.kill();
-    this.titleScrollTimeline.kill();
-    this.cursorTimeline.kill();
-    this.titleObserver.disconnect();
-    this.windowObserver.disconnect();
-  },
-  methods: {
-    createTitleObserver(
-      target: Element,
-      timeline: gsap.core.Timeline
-    ): IntersectionObserver {
-      const observer = new IntersectionObserver(
-        (entries: IntersectionObserverEntry[]): void => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              timeline.restart();
-            }
-          }
-        }
-      );
-      observer.observe(target);
-      return observer;
-    },
-    createTitleTimeline(titleRef: Element, text: string) {
-      const tl = gsap.timeline();
-      tl.add(this.textAnimation(titleRef, text));
-      return tl;
-    },
-    createCursorTimeline(cursorRef: Element) {
-      const tl = gsap.timeline({
-        repeat: -1,
-        yoyo: true,
-      });
-      tl.fromTo(
-        cursorRef,
-        {
-          autoAlpha: 1,
-        },
-        {
-          autoAlpha: 0,
-          duration: 0.5,
-          ease: 'steps(1)',
-        }
-      );
-      return tl;
-    },
-    onLinkHover(text: string) {
-      if (text === this.previousText) return;
-      if (text !== this.blok.title && this.timeout > 0) {
-        clearTimeout(this.timeout);
-      }
-      this.titleScrollTimeline.pause(0);
-      this.previousText = text;
-      const titleRef = this.$refs[`${this.blok._uid}-title`] as Element;
-      this.cursorTimeline.pause(0);
-      this.titleTimeline.reverse(this.titleTimeline.time());
-      this.titleTimeline.eventCallback('onReverseComplete', () => {
-        this.titleTimeline = this.createTitleTimeline(titleRef, text);
-        this.titleTimeline.play(0);
-        this.titleTimeline.eventCallback('onComplete', () => {
-          this.cursorTimeline.restart();
-          if (text !== this.blok.title) {
-            this.timeout = setTimeout(() => {
-              this.onLinkHover(this.blok.title);
-            }, 500);
-          }
-        });
-      });
-    },
-    textAnimation(elem: Element, text: string): gsap.core.Tween {
-      return gsap.to(elem, {
-        id: 'textAnimation',
-        duration: text.length / 16,
-        text: {
-          value: text,
-        },
-        ease: 'none',
-      });
-    },
-  },
+//   mounted() {
+//     const cursorRef = this.$refs[`${this.blok._uid}-cursor`] as Element;
+//     const titleRef = this.$refs[`${this.blok._uid}-title`] as Element;
+//     const windowRef = this.$refs[`${this.blok._uid}-window`] as Element;
+//     this.cursorTimeline = this.createCursorTimeline(cursorRef).pause(0.5);
+//     this.titleTimeline = this.createTitleTimeline(
+//       titleRef,
+//       this.blok.title
+//     ).pause(0);
+//     this.titleScrollTimeline = this.createTitleTimeline(
+//       titleRef,
+//       this.blok.title
+//     )
+//       .pause(0)
+//       .add(this.cursorTimeline.play(0));
+//     this.windowObserver = this.$elevateAnimationObserver(windowRef);
+//     this.titleObserver = this.createTitleObserver(
+//       titleRef,
+//       this.titleScrollTimeline
+//     );
+//   },
+//   beforeDestroy() {
+//     this.titleTimeline.kill();
+//     this.titleScrollTimeline.kill();
+//     this.cursorTimeline.kill();
+//     this.titleObserver.disconnect();
+//     this.windowObserver.disconnect();
+//   },
+//   methods: {
+//     createTitleObserver(
+//       target: Element,
+//       timeline: gsap.core.Timeline
+//     ): IntersectionObserver {
+//       const observer = new IntersectionObserver(
+//         (entries: IntersectionObserverEntry[]): void => {
+//           for (const entry of entries) {
+//             if (entry.isIntersecting) {
+//               timeline.restart();
+//             }
+//           }
+//         }
+//       );
+//       observer.observe(target);
+//       return observer;
+//     },
+//     createTitleTimeline(titleRef: Element, text: string) {
+//       const tl = gsap.timeline();
+//       tl.add(this.textAnimation(titleRef, text));
+//       return tl;
+//     },
+//     createCursorTimeline(cursorRef: Element) {
+//       const tl = gsap.timeline({
+//         repeat: -1,
+//         yoyo: true,
+//       });
+//       tl.fromTo(
+//         cursorRef,
+//         {
+//           autoAlpha: 1,
+//         },
+//         {
+//           autoAlpha: 0,
+//           duration: 0.5,
+//           ease: 'steps(1)',
+//         }
+//       );
+//       return tl;
+//     },
+//     onLinkHover(text: string) {
+//       if (text === this.previousText) return;
+//       if (text !== this.blok.title && this.timeout > 0) {
+//         clearTimeout(this.timeout);
+//       }
+//       this.titleScrollTimeline.pause(0);
+//       this.previousText = text;
+//       const titleRef = this.$refs[`${this.blok._uid}-title`] as Element;
+//       this.cursorTimeline.pause(0);
+//       this.titleTimeline.reverse(this.titleTimeline.time());
+//       this.titleTimeline.eventCallback('onReverseComplete', () => {
+//         this.titleTimeline = this.createTitleTimeline(titleRef, text);
+//         this.titleTimeline.play(0);
+//         this.titleTimeline.eventCallback('onComplete', () => {
+//           this.cursorTimeline.restart();
+//           if (text !== this.blok.title) {
+//             this.timeout = setTimeout(() => {
+//               this.onLinkHover(this.blok.title);
+//             }, 500);
+//           }
+//         });
+//       });
+//     },
+//     textAnimation(elem: Element, text: string): gsap.core.Tween {
+//       return gsap.to(elem, {
+//         id: 'textAnimation',
+//         duration: text.length / 16,
+//         text: {
+//           value: text,
+//         },
+//         ease: 'none',
+//       });
+//     },
+//   },
 });
 </script>
 
@@ -263,9 +257,17 @@ export default Vue.extend({
   &__buttons {
     @include size(rem(64px), rem(24px));
     position: absolute;
-    circle {
-      fill: var(--tertiary);
-      color: var(--stroke);
+    .exit {
+      fill: #de5246;
+      color: #de5246;
+    }
+    .minimize {
+      fill: #ffce44;
+      color: #ffce44;
+    }
+    .maximize {
+      fill: #1aa260;
+      color: #1aa260;
     }
   }
   &__title {
@@ -282,4 +284,4 @@ export default Vue.extend({
 .dot {
   color: var(--tertiary);
 }
-</style> -->
+</style>
