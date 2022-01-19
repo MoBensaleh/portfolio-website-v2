@@ -12,14 +12,14 @@
       <div class="project__links">
         <a
           v-if="project.live"
-          class="project__link"
+          class="project__link link"
           :href="project.live"
         >
           Live
         </a>
         <a
           v-if="project.github"
-          class="project__link"
+          class="project__link link"
           :href="project.github"
         >
           Code
@@ -58,10 +58,9 @@
           <span class="window__title">{{ project.title }}</span>
         </div>
         <img
+          v-if="project.picture"
           :src="project.picture"
           class="window__image"
-          width: 370,
-          height: 231.25,
         
         />
       </div>
@@ -84,124 +83,83 @@ export default Vue.extend({
   },
   data() {
     return {
-      titleTimeline: null as unknown as gsap.core.Timeline,
-      titleScrollTimeline: null as unknown as gsap.core.Timeline,
-      cursorTimeline: null as unknown as gsap.core.Timeline,
-      previousText: '',
-      timeout: null as any,
-      lastFilter: 'show-all',
-      titleObserver: null as unknown as IntersectionObserver,
-      windowObserver: null as unknown as IntersectionObserver,
+  
     };
   },
-//   mounted() {
-//     const cursorRef = this.$refs[`${this.blok._uid}-cursor`] as Element;
-//     const titleRef = this.$refs[`${this.blok._uid}-title`] as Element;
-//     const windowRef = this.$refs[`${this.blok._uid}-window`] as Element;
-//     this.cursorTimeline = this.createCursorTimeline(cursorRef).pause(0.5);
-//     this.titleTimeline = this.createTitleTimeline(
-//       titleRef,
-//       this.blok.title
-//     ).pause(0);
-//     this.titleScrollTimeline = this.createTitleTimeline(
-//       titleRef,
-//       this.blok.title
-//     )
-//       .pause(0)
-//       .add(this.cursorTimeline.play(0));
-//     this.windowObserver = this.$elevateAnimationObserver(windowRef);
-//     this.titleObserver = this.createTitleObserver(
-//       titleRef,
-//       this.titleScrollTimeline
-//     );
-//   },
-//   beforeDestroy() {
-//     this.titleTimeline.kill();
-//     this.titleScrollTimeline.kill();
-//     this.cursorTimeline.kill();
-//     this.titleObserver.disconnect();
-//     this.windowObserver.disconnect();
-//   },
-//   methods: {
-//     createTitleObserver(
-//       target: Element,
-//       timeline: gsap.core.Timeline
-//     ): IntersectionObserver {
-//       const observer = new IntersectionObserver(
-//         (entries: IntersectionObserverEntry[]): void => {
-//           for (const entry of entries) {
-//             if (entry.isIntersecting) {
-//               timeline.restart();
-//             }
-//           }
-//         }
-//       );
-//       observer.observe(target);
-//       return observer;
-//     },
-//     createTitleTimeline(titleRef: Element, text: string) {
-//       const tl = gsap.timeline();
-//       tl.add(this.textAnimation(titleRef, text));
-//       return tl;
-//     },
-//     createCursorTimeline(cursorRef: Element) {
-//       const tl = gsap.timeline({
-//         repeat: -1,
-//         yoyo: true,
-//       });
-//       tl.fromTo(
-//         cursorRef,
-//         {
-//           autoAlpha: 1,
-//         },
-//         {
-//           autoAlpha: 0,
-//           duration: 0.5,
-//           ease: 'steps(1)',
-//         }
-//       );
-//       return tl;
-//     },
-//     onLinkHover(text: string) {
-//       if (text === this.previousText) return;
-//       if (text !== this.blok.title && this.timeout > 0) {
-//         clearTimeout(this.timeout);
-//       }
-//       this.titleScrollTimeline.pause(0);
-//       this.previousText = text;
-//       const titleRef = this.$refs[`${this.blok._uid}-title`] as Element;
-//       this.cursorTimeline.pause(0);
-//       this.titleTimeline.reverse(this.titleTimeline.time());
-//       this.titleTimeline.eventCallback('onReverseComplete', () => {
-//         this.titleTimeline = this.createTitleTimeline(titleRef, text);
-//         this.titleTimeline.play(0);
-//         this.titleTimeline.eventCallback('onComplete', () => {
-//           this.cursorTimeline.restart();
-//           if (text !== this.blok.title) {
-//             this.timeout = setTimeout(() => {
-//               this.onLinkHover(this.blok.title);
-//             }, 500);
-//           }
-//         });
-//       });
-//     },
-//     textAnimation(elem: Element, text: string): gsap.core.Tween {
-//       return gsap.to(elem, {
-//         id: 'textAnimation',
-//         duration: text.length / 16,
-//         text: {
-//           value: text,
-//         },
-//         ease: 'none',
-//       });
-//     },
-//   },
+  mounted(){
+      const cursorRef = this.$refs.cursor as Element;
+      this.createCursorTimeline(cursorRef).play();
+  },
+
+  methods: {
+    createCursorTimeline(cursorRef: Element) {
+      const tl = gsap.timeline({
+        repeat: -1,
+        yoyo: true,
+      });
+      tl.fromTo(
+        cursorRef,
+        {
+          autoAlpha: 1,
+        },
+        {
+          autoAlpha: 0,
+          duration: 0.5,
+          ease: 'steps(1)',
+        }
+      );
+      return tl;
+    },
+
+    textAnimation(elem: Element, text: string): gsap.core.Tween {
+      return gsap.to(elem, {
+        id: 'textAnimation',
+        duration: text.length / 16,
+        text: {
+          value: text,
+        },
+        ease: 'none',
+      });
+    },
+  },
 });
 </script>
 
 <style lang="scss" scoped>
 @use '~/assets/styles/global/variables' as *;
 @use '~/assets/styles/mixins/mixins' as *;
+a {
+  position: relative;
+   @include inline-flex(center, flex-start);
+  color: var(--primary);
+  background-color: transparent;
+  font-weight: 700;
+  font-family: var(--font-family-secondary);
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+
+
+a::before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--tertiary);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+a:hover::before {
+  transform: scaleX(1);
+}
+
+
+
 .project {
   height: 100%;
   display: grid;
@@ -210,7 +168,7 @@ export default Vue.extend({
   row-gap: rem(20px);
   align-content: flex-start;
   &__title {
-    font-size: $text-3xl;
+    font-size: $text-2xl;
     font-weight: 700;
     font-family: var(--font-family-secondary);
   }
@@ -230,19 +188,28 @@ export default Vue.extend({
     padding-top: rem(10px);
   }
   &__link {
-    margin-right: 10%;
+    margin-right: 35%;
   }
   &__media {
     grid-area: media;
     border-radius: $border-radius;
-    background-color: var(--shadow);
+   
     margin-left: rem(10px);
+    box-shadow: var(--shadow) 4px 4px 0,
+                var(--shadow) 5px 5px 0,
+                var(--shadow) 6px 6px 0,
+                var(--shadow) 7px 7px 0,
+                var(--shadow) 8px 8px 0,
+                var(--shadow) 9px 9px 0,
+                var(--shadow) 10px 10px 0,
+                var(--shadow) 11px 11px 0;
+
   }
 }
 .window {
   @include size(100%, auto);
   @include flex(flex-start, flex-start, column);
-  border: rem(2px) solid var(--stroke);
+//   border: rem(2px) solid var(--stroke);
   border-radius: $border-radius;
   color: var(--shadow);
   background-color: var(--secondary);
@@ -278,10 +245,13 @@ export default Vue.extend({
     font-size: rem(14px);
   }
   &__image {
-    display: flex;
+    max-height: 240px;
+    width: 100%;
+    object-fit: cover;
   }
 }
 .dot {
   color: var(--tertiary);
 }
+
 </style>

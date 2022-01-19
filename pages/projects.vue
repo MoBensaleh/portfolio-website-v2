@@ -3,10 +3,11 @@
         <TheHeader />
         <section ref="project" class="projects">
             <div ref="projectGroup" class="project__group">
-                <div ref="projectText" class="project__text" >
-                    <rich-text tag="h1" class="text-6xl mr-3">Projects</rich-text>
+                <div ref="projectText" class="project__text flex items-baseline" >
+                    <rich-text tag="h1" class="text-6xl">Projects</rich-text>
+                    <rich-text tag="h1" class="text-lg dot">.</rich-text>
                 </div>
-                <div class="mt-9 projects__list-wrapper">
+                <div ref="projectList" class="projects__list-wrapper">
                     <ul class="projects__list">
                         <li
                         v-for="project in projects" 
@@ -15,7 +16,6 @@
                         >
                         <project-card :key="project.title" :project="project"></project-card>
                         </li>
-
                     </ul>
                 </div>
             </div>
@@ -34,8 +34,6 @@ import { Project } from '~/types/project'
             RichText,
             ProjectCard 
         },
-     
-   
         data() {
             return {
                 projects: projects as Project[]
@@ -43,6 +41,7 @@ import { Project } from '~/types/project'
         },
         mounted(){
             this.animateProjects();
+            this.animateFading(1);
 
         },
 
@@ -75,6 +74,16 @@ import { Project } from '~/types/project'
                     yPercent: 0,
                 });
             },
+            animateFading(delay: number) {
+                gsap.set(this.$refs.projectList as Element, {
+                    autoAlpha: 0,
+                });
+                gsap.to(this.$refs.projectList as Element, {
+                    autoAlpha: 1,
+                    duration: 1,
+                    delay,
+                });
+            },
         }
     }
 </script>
@@ -87,10 +96,10 @@ import { Project } from '~/types/project'
   color: var(--primary);
   max-width: $max-width;
   margin-right:auto;
-    margin-left:auto;
+  margin-left:auto;
   padding: 0 rem(25px) rem($nav-height);
   &__list-wrapper {
-    // visibility: hidden; 
+    visibility: hidden; 
   }
   &__list {
     display: grid;
@@ -101,11 +110,12 @@ import { Project } from '~/types/project'
     justify-content: center;
     gap: rem(50px);
     margin-top: rem(50px);
+    margin-bottom: rem(50px);
     @media screen and (min-width: 1024px) {
       grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
       justify-content: flex-start;
       gap: rem(100px);
-      margin-top: rem(100px);
+      margin-top: rem(70px);
     }
   }
 }

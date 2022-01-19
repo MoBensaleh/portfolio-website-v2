@@ -10,6 +10,7 @@
             ]"
             @click="onSelectRoute(link.to)"
           >
+          
             <NuxtLink class="header__link link" :to="link.to" :exact="true">
               <div class="link__icon-wrapper">
                 <svg class="link__icon">

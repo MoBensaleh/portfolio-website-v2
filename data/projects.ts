@@ -3,15 +3,15 @@ import { Project } from '@/types/project'
 export const projects: Project[] = [
   {
     title: `Airport Management System`,
-    picture: `/images/kroger-wireless-logo.svg`,
+    picture: 'images/ams.png',
     description: '',
-    live: `/work/kroger-wireless`,
-    github: '',
+    live: ``,
+    github: 'https://github.com/MoBensaleh/AirportManagementSystem',
     technologies: ['Java', 'JavaFX', 'SQLite']
   },
   {
     title: `Omnee GetQuote`,
-    picture: `/images/drees-logo.svg`,
+    picture: 'images/OmneeGetQuote.png',
     description: '',
     live: 'https://getquote.omnee.ca/#/general/step1',
     github: '',
@@ -19,18 +19,18 @@ export const projects: Project[] = [
   },
   {
     title: `Curses Labyrinth`,
-    picture: `/images/drees-logo.svg`,
+    picture: `images/CursesLabyrinth.png`,
     description: '',
     live: 'https://mobensaleh.itch.io/curses-labyrinth',
-    github: '',
+    github: 'https://github.com/MoBensaleh/CursesLabyrinth',
     technologies: ['Unity', 'C#']
   },
   {
     title: `Portfolio Website`,
-    picture: `/images/drees-logo.svg`,
+    picture: 'images/Portfolio.png',
     description: '',
     live: 'https://www.mohamedbensaleh.com/',
-    github: '',
+    github: 'https://github.com/MoBensaleh/portfolio-website-v2',
     technologies: ['NuxtJs', 'TypeScript', 'SCSS', 'GSAP']
   },
 ]

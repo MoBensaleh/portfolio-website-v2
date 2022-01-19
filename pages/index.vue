@@ -6,12 +6,12 @@
         <div ref="heroText" class="hero__text" >
           <div class="flex row items-center">
             <rich-text tag="h1" class="text-6xl mr-3">Hi</rich-text>
-            <span class="wave"><img src="@/assets/images/Hand.gif"></span>
+            <span class="wave"><img src="images/Hand.gif"></span>
             <rich-text tag="h1" class="text-6xl">,</rich-text>
           </div>
-          <div class="flex row">
+          <div class="flex row items-baseline">
             <rich-text tag="h1" class="text-6xl">I'm {{about.firstName}}</rich-text>
-            <rich-text tag="p" class="text-lg dot">.</rich-text>
+            <rich-text tag="h1" class="text-lg dot">.</rich-text>
           </div>
           <rich-text tag="p" class="text-lg ">I'm a  <h6  ref="title" class="inline"></h6><span ref="cursor" class="dot ">_</span></rich-text>
 
@@ -21,7 +21,7 @@
           <base-button :button-text="'Who am I?'" :button-link="'/about'"></base-button>
         </div>
       </div>
-      <img id="profile_pic" src="@/assets/images/Mohamed.png" alt="Mohamed"/>
+      <img id="profile_pic" src="images/Mohamed.png" alt="Mohamed"/>
     </section>
   </div>
 </template>
