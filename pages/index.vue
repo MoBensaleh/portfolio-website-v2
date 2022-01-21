@@ -133,9 +133,10 @@ export default Vue.extend({
     min-height: 3em;
     resize: both;
     object-fit: cover;
-    margin-top: rem(35px);
+    margin-top: rem(65px);
     @media screen and (min-width: 1024px) {
       width: 280px;
+      margin: 0;
     }
 }
 .wave{
