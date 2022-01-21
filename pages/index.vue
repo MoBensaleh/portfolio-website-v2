@@ -13,7 +13,7 @@
             <rich-text tag="h1" class="text-6xl">I'm {{about.firstName}}</rich-text>
             <rich-text tag="h1" class="text-lg dot">.</rich-text>
           </div>
-          <rich-text tag="p" class="text-lg ">I'm a  <h6  ref="title" class="inline"></h6><span ref="cursor" class="dot ">_</span></rich-text>
+          <rich-text tag="p" class="text-lg ">I'm a <b  ref="title" class="inline font-w500"></b><span ref="cursor" class="dot ">_</span> </rich-text>
         </div>
         <div class="inline-flex mt-9 hero__buttons">
           <base-button :button-text="'Discover my projects'" :button-link="'/projects'"></base-button>
@@ -73,7 +73,7 @@ export default Vue.extend({
         defaults: { ease: 'ease.in', duration: 0.5 },
       });
    
-      tl.set(heroText.querySelectorAll('h1'), {
+      tl.set(heroText.querySelector('h1'), {
         opacity: 0,
         yPercent: 50,
       });
@@ -88,7 +88,7 @@ export default Vue.extend({
         },
         '0'
       );
-      tl.to(heroText.querySelectorAll('h1'), {
+      tl.to(heroText.querySelector('h1'), {
         opacity: 1,
         yPercent: 0,
       });
@@ -100,19 +100,6 @@ export default Vue.extend({
         },
         '<'
       );
-      tl.from(
-        profilePic.querySelectorAll('image'),
-        {
-          opacity: 0,
-          clearProps: 'all',
-          duration: 0.75,
-          stagger: {
-            amount: 0.25,
-          },
-        },
-        '>-=0.5'
-      );
-    
     },
 
     textAnimation(elem: Element, text: string): gsap.core.Tween {
@@ -200,7 +187,7 @@ export default Vue.extend({
   }
   &__text {
     position: relative;
-    @include flex(start, start, column);
+    @include flex(flex-start, flex-start, column);
     z-index: 1;
   }
   &__buttons {

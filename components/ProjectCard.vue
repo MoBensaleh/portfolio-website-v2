@@ -6,9 +6,9 @@
         <span ref="title">{{project.title}}</span
         ><span ref="cursor" class="dot">_</span>
       </h2>
-      <p class="project__description">
+      <rich-text tag="p" class="project__description text-sm pt-1">
         {{ project.description }}
-      </p>
+      </rich-text>
       <div class="project__links">
         <a
           v-if="project.live"
@@ -203,7 +203,6 @@ a:hover::before {
                 var(--shadow) 9px 9px 0,
                 var(--shadow) 10px 10px 0,
                 var(--shadow) 11px 11px 0;
-
   }
 }
 .window {

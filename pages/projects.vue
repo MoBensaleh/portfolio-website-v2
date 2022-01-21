@@ -24,12 +24,13 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import { gsap } from "gsap";
 import RichText from '~/components/RichText.vue'
 import ProjectCard from '~/components/ProjectCard.vue'
 import { projects } from '~/data/projects'
 import { Project } from '~/types/project'
-    export default {
+    export default Vue.extend({
         components: {
             RichText,
             ProjectCard 
@@ -85,7 +86,7 @@ import { Project } from '~/types/project'
                 });
             },
         }
-    }
+    })
 </script>
 
 <style lang="scss" scoped>

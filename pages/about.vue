@@ -19,7 +19,7 @@
                             </div>
                             <div class="flex justify-center">
                                 <ul ref="profileLinks" class="profile__links">
-                                    <li v-for="link in links" :key="link" class="profile__link">
+                                    <li v-for="link in links" :key="link.icon" class="profile__link">
                                     <a
                                         class="profile__a"
                                         :href="link.href"
@@ -46,6 +46,7 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import { gsap } from "gsap";
 import RichText from '~/components/RichText.vue'
 import { about } from '@/data/about'
@@ -53,7 +54,7 @@ import { About } from '@/types/pages'
 import { links } from '@/data/navigation'
 import {SocialMedia} from '@/types/links'
 
-    export default {
+    export default Vue.extend({
         name: 'About' as string,
         components: {
             RichText,
@@ -75,18 +76,18 @@ import {SocialMedia} from '@/types/links'
                 return require('@/assets/sprite.svg') + '#' + icon;
             },
             animateFading(delay: number) {
-                gsap.set(this.$refs.profileImg as Element, {
+                gsap.set(this.$refs.profileImg as any, {
                     autoAlpha: 0,
                 });
-                gsap.set(this.$refs.profileLinks as Element, {
+                gsap.set(this.$refs.profileLinks as any, {
                     autoAlpha: 0,
                 });
-                gsap.to(this.$refs.profileImg as Element, {
+                gsap.to(this.$refs.profileImg as any, {
                     autoAlpha: 1,
                     duration: 1,
                     delay,
                 });
-                gsap.to(this.$refs.profileLinks as Element, {
+                gsap.to(this.$refs.profileLinks as any, {
                     autoAlpha: 1,
                     duration: 1,
                     delay,
@@ -97,9 +98,9 @@ import {SocialMedia} from '@/types/links'
 
             animateHero(): void {
                 if (!process.client) return;
-                const aboutText = this.$refs.aboutText as Element
-                const aboutGroup = this.$refs.aboutGroup as Element
-                const bio = this.$refs.bio as Element
+                const aboutText = this.$refs.aboutText as any
+                const aboutGroup = this.$refs.aboutGroup as any
+                const bio = this.$refs.bio as any
                 const tl = gsap.timeline({
                     defaults: { ease: 'ease.in', duration: 0.5 },
                 });
@@ -134,7 +135,7 @@ import {SocialMedia} from '@/types/links'
   
             
         }
-    }
+    })
 </script>
 
 <style lang="scss" scoped>

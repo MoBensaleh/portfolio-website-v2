@@ -10,7 +10,20 @@
             ]"
             @click="onSelectRoute(link.to)"
           >
-            <NuxtLink class="header__link link" :to="link.to" :exact="true">
+            <div v-if="link.text === 'Contact'">
+              <a
+              :href="link.to"
+              >
+              <div class="link__icon-wrapper">
+                <svg class="link__icon">
+                  <use :href="iconPath(link.icon)" />
+                </svg>
+              </div>
+              <span class="link__text">{{ link.text }}</span>
+              </a>
+              
+            </div>
+            <NuxtLink v-else class="header__link link" :to="link.to" :exact="true">
               <div class="link__icon-wrapper">
                 <svg class="link__icon">
                   <use :href="iconPath(link.icon)" />
@@ -108,6 +121,15 @@
 <style scoped lang="scss">
 @use '~/assets/styles/global/variables' as *;
 @use '~/assets/styles/mixins/mixins' as *;
+
+a{
+  padding: 0;
+  @include flex(center, center, column);
+  font-size: rem(12px);
+  @media screen and (min-width: 1024px) {
+    font-size: rem(16px);
+  }
+}
 .header {
   @include size(100%, auto);
   max-width: $max-width;

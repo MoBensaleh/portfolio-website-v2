@@ -21,7 +21,7 @@ export const navigation: NavigationItem[] = [
   {
     text: 'Contact',
     icon: 'contact',
-    to: '/contact',
+    to: 'mailto:mohamed.bensaleh@usask.ca',
   },
 ];
 
