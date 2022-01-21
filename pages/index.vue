@@ -14,7 +14,6 @@
             <rich-text tag="h1" class="text-lg dot">.</rich-text>
           </div>
           <rich-text tag="p" class="text-lg ">I'm a  <h6  ref="title" class="inline"></h6><span ref="cursor" class="dot ">_</span></rich-text>
-
         </div>
         <div class="inline-flex mt-9 hero__buttons">
           <base-button :button-text="'Discover my projects'" :button-link="'/projects'"></base-button>

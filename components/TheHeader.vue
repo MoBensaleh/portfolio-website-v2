@@ -10,7 +10,6 @@
             ]"
             @click="onSelectRoute(link.to)"
           >
-          
             <NuxtLink class="header__link link" :to="link.to" :exact="true">
               <div class="link__icon-wrapper">
                 <svg class="link__icon">
@@ -32,7 +31,6 @@
     import { navigation } from '@/data/navigation'
     import { NavigationItem } from '@/types/links'
     
-
     export default Vue.extend({
       data(){
         return{

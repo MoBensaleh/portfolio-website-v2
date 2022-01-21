@@ -8,25 +8,38 @@
                     <rich-text tag="h1" class="text-lg dot">.</rich-text>
                 </div>
                <div class="w-100 lg:mt-12">
-                   <div class="flex justify-between items-center flex-col lg:flex-row">
-                       <div ref="profileImg" class="profile__wrapper profile__wrapper--round">
-                           <img
-                            :src="about.myImage"
-                            class="profile__img "
-                            border-radius="50%"
-                            />
+                    <div class="flex justify-between items-center flex-col lg:flex-row">
+                       <div>
+                            <div ref="profileImg" class="profile__wrapper profile__wrapper--round">
+                                <img
+                                    :src="about.myImage"
+                                    class="profile__img "
+                                    border-radius="50%"
+                                />
+                            </div>
+                            <div class="flex justify-center">
+                                <ul ref="profileLinks" class="profile__links">
+                                    <li v-for="link in links" :key="link" class="profile__link">
+                                    <a
+                                        class="profile__a"
+                                        :href="link.href"
+                                        target="_blank"
+                                    >
+                                        <svg class="profile__svg">
+                                        <use :href="iconPath(link.icon)" />
+                                        </svg>
+                                    </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <div ref="bio"  class="text-sm profile__about mt-5 lg:mt-0">
                             <rich-text tag="p" >My name is Mohamed Bensaleh and I'm a <b>Computer Science student</b> at the University of Saskatchewan. I'm currently working as a <b>Software Development Intern</b>
-                            at <b>Omnee Technologies Corp.</b> where I get to avidly learn, hone my skills in software development, and explore new programming languages, design patterns, and frameworks. <br><br>Over the course of my education/work experience I've become passionate about <b>Web development</b>, 
-                            <b>mobile app development</b>, and <b>machine learning.</b></rich-text>
-
-                        </div>
-                        
+                            at <b>Omnee Technologies Corp.</b> where I get to avidly learn, hone my skills in software development, and explore new programming languages, design patterns, and frameworks. <br><br>Over the course of my education/work experience I've become passionate about <b>Web Development</b>, 
+                            <b>Mobile App Development</b>, and <b>Artificial Intelligence.</b></rich-text>
+                        </div>    
                     </div>
                </div>
-                
-             
             </div>
         </section>
     </div>
@@ -37,6 +50,9 @@ import { gsap } from "gsap";
 import RichText from '~/components/RichText.vue'
 import { about } from '@/data/about'
 import { About } from '@/types/pages'
+import { links } from '@/data/navigation'
+import {SocialMedia} from '@/types/links'
+
     export default {
         name: 'About' as string,
         components: {
@@ -44,7 +60,8 @@ import { About } from '@/types/pages'
         },
         data() {
             return {
-                about: about as About
+                about: about as About,
+                links: links as SocialMedia[]
             }
         },
         mounted(){
@@ -54,11 +71,22 @@ import { About } from '@/types/pages'
         },
 
         methods: {
+            iconPath(icon: string): string {
+                return require('@/assets/sprite.svg') + '#' + icon;
+            },
             animateFading(delay: number) {
                 gsap.set(this.$refs.profileImg as Element, {
                     autoAlpha: 0,
                 });
+                gsap.set(this.$refs.profileLinks as Element, {
+                    autoAlpha: 0,
+                });
                 gsap.to(this.$refs.profileImg as Element, {
+                    autoAlpha: 1,
+                    duration: 1,
+                    delay,
+                });
+                gsap.to(this.$refs.profileLinks as Element, {
                     autoAlpha: 1,
                     duration: 1,
                     delay,
@@ -163,11 +191,17 @@ import { About } from '@/types/pages'
   &__links {
     @include flex(center, space-around);
     @include size(100%, 100%);
-    margin-top: rem(25px);
-    background-color: var(--tertiary);
+    margin-top: rem(20px);
+    margin-right: rem(0px);
+    padding: .2rem 0 .2rem 0;
+    background-color: var(--transparentBg);
     border-radius: $border-radius;
-    border: $border;
+    border: double 6px transparent;
+    background-image: linear-gradient(var(--transparentBg), var(--transparentBg));
+    
+    border-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='100' height='100' viewBox='0 0 100 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cstyle%3Epath%7Banimation:stroke 5s infinite linear%3B%7D%40keyframes stroke%7Bto%7Bstroke-dashoffset:776%3B%7D%7D%3C/style%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232d3561' /%3E%3Cstop offset='25%25' stop-color='%23c05c7e' /%3E%3Cstop offset='50%25' stop-color='%23f3826f' /%3E%3Cstop offset='100%25' stop-color='%23ffb961' /%3E%3C/linearGradient%3E %3Cpath d='M1.5 1.5 l97 0l0 97l-97 0 l0 -97' stroke-linecap='square' stroke='url(%23g)' stroke-width='3' stroke-dasharray='388'/%3E %3C/svg%3E") 1;
   }
+
   &__a {
     @include flex(center, center);
   }

@@ -12,6 +12,8 @@
 	--tertiary-dark: #{$tertiary-dark};
 	--tertiary-light: #{$tertiary-light};
 	--stroke: #{$stroke};
+
+	--transparentBg: rgba(78, 78, 78, 0.06);
 }
 
 @media (prefers-color-scheme: light) {

@@ -1,4 +1,5 @@
 import {NavigationItem} from '@/types/links';
+import {SocialMedia} from '@/types/links'
 
 
 export const navigation: NavigationItem[] = [
@@ -23,3 +24,15 @@ export const navigation: NavigationItem[] = [
     to: '/contact',
   },
 ];
+
+export const links: SocialMedia[] = [
+  {
+    icon: 'linkedin',
+    href: 'https://www.linkedin.com/in/mohamedbensaleh/',
+  },
+  {
+    icon: 'github',
+    href: 'https://github.com/MoBensaleh',
+  },
+];
+
