@@ -21,7 +21,7 @@
           <base-button :button-text="'Who am I?'" :button-link="'/about'"></base-button>
         </div>
       </div>
-      <img id="profile_pic" src="images/Mohamed.png" alt="Mohamed"/>
+      <img id="profile_pic" src="images/Mohamed.png" ref="profilePic" alt="Mohamed"/>
     </section>
   </div>
 </template>
@@ -70,6 +70,7 @@ export default Vue.extend({
       const hero = this.$refs.hero as Element;
       const heroGroup = this.$refs.heroGroup as Element;
       const heroText = this.$refs.heroText as Element;
+      const profilePic = this.$refs.profilePic as Element
       const tl = gsap.timeline({
         defaults: { ease: 'ease.in', duration: 0.5 },
       });
@@ -93,6 +94,26 @@ export default Vue.extend({
         opacity: 1,
         yPercent: 0,
       });
+      tl.from(
+        profilePic,
+        {
+          autoAlpha: 0,
+          duration: 1,
+        },
+        '<'
+      );
+      tl.from(
+        profilePic.querySelectorAll('image'),
+        {
+          opacity: 0,
+          clearProps: 'all',
+          duration: 0.75,
+          stagger: {
+            amount: 0.25,
+          },
+        },
+        '>-=0.5'
+      );
     
     },
 
@@ -116,6 +137,7 @@ export default Vue.extend({
 @use '~/assets/styles/mixins/mixins' as *;
 
 #profile_pic{
+    visibility: hidden;
     width:220px;
     @include flex(center, center, row);
     filter: url(#dropshadow);
