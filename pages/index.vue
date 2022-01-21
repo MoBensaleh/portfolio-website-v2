@@ -49,16 +49,15 @@ export default Vue.extend({
     }
   },
    mounted() {
+    this.animateHero();
+
     const titleRef = this.$refs.title as Element;
     const cursor = this.$refs.cursor as Element;
-    gsap.to(cursor, {opacity:0, ease: "power2.inOut", repeat:-1})
-   
-    const words = ["Computer Science student.", "Software Developer.", "Web Developer."];
     const masterTl = gsap.timeline({repeat: -1})
 
-    this.animateHero();
-    
-    words.forEach(word => {
+    gsap.to(cursor, {opacity:0, ease: "power2.inOut", repeat:-1})
+
+    this.about.roles.forEach(word => {
       const tl = gsap.timeline({repeat: 1, yoyo: true, repeatDelay:1})
       tl.to(titleRef, {duration: 1, text: word})
       masterTl.add(tl)
@@ -232,15 +231,4 @@ export default Vue.extend({
     }
   }
 }
-// @keyframes float {
-//   from {
-//     transform: translate3d(rem(-2px), rem(-5px), rem(-10px));
-//   }
-//   to {
-//     transform: translate3d(0, 0, 0);
-//   }
-// }
-
-
-
 </style>

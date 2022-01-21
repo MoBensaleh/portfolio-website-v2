@@ -5,7 +5,7 @@ export const about: About = {
   firstName: 'Mohamed',
   lastName: 'Bensaleh',
   myImage: 'images/mohamed-01.png',
-  role: 'Software Developer',
+  roles: ["Computer Science student.", "Software Developer.", "Web Developer."],
   city: 'Saskatoon',
   province: 'Saskatchewan',
  
