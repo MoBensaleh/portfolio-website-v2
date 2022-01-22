@@ -1,6 +1,5 @@
 <template>
     <div >
-        <TheHeader />
         <section ref="about" class="about">
             <div ref="aboutGroup" class="about__group">
                 <div ref="aboutText" class="about__text" >

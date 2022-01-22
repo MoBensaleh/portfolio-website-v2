@@ -1,6 +1,5 @@
 <template>
     <div >
-        <TheHeader />
         <section ref="project" class="projects">
             <div ref="projectGroup" class="project__group">
                 <div ref="projectText" class="project__text flex items-baseline" >

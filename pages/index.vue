@@ -1,6 +1,5 @@
 <template>
   <div class="flex justify-center">
-    <TheHeader />
     <section ref="hero" class="hero">
       <div ref="heroGroup" class="hero__group">
         <div ref="heroText" class="hero__text" >
@@ -133,7 +132,7 @@ export default Vue.extend({
     min-height: 3em;
     resize: both;
     object-fit: cover;
-    margin-top: rem(65px);
+    margin-top: rem(40px);
     @media screen and (min-width: 1024px) {
       width: 280px;
       margin: 0;
@@ -180,7 +179,7 @@ export default Vue.extend({
     @media screen and (min-width: 1024px) {
       @include size(100%, 100%);
       @include absolute(-60px, auto, auto, -55px);
-      display: block;
+      display: bπlock;
       max-height: rem(100px);
       max-width: rem(100px);
       color: var(--tertiary);
@@ -190,13 +189,15 @@ export default Vue.extend({
     position: relative;
     @include flex(flex-start, flex-start, column);
     z-index: 1;
+    margin-top: rem(50px);
+    @media screen and (min-width: 1024px) {
+      margin-top: 0;
+    }
   }
   &__buttons {
     display: none;
     @media screen and (min-width: 1024px) {
       display: flex;
-      // margin-top: 40px;
-      // visibility: hidden;
     }
   }
   &__figure {
