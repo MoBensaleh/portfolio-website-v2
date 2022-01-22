@@ -12,9 +12,9 @@ export const projects: Project[] = [
   {
     title: `Omnee GetQuote`,
     picture: 'images/OmneeGetQuote.png',
-    description: 'A multi-page form style website built for Omnee Technologies Inc. Worked on styling, SEO, and performance optimization ',
+    description: 'A multi-page form style website built for Omnee Technologies Inc. Worked on styling, SEO, and performance optimization.',
     live: 'https://getquote.omnee.ca/#/general/step1',
-    github: 'A multi-page form style website built for Omnee Technologies Inc. Worked on styling, SEO, and performance optimization ',
+    github: '',
     technologies: ['VueJs', 'SCSS', 'Laravel']
   },
   {
