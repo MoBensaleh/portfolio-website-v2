@@ -33,9 +33,10 @@
                             </div>
                         </div>
                         <div ref="bio"  class="text-sm profile__about mt-10 pb-10 lg:mt-0 lg:pb-0">
-                            <rich-text tag="p" >My name is Mohamed Bensaleh and I'm a <b>Computer Science student</b> at the University of Saskatchewan. I'm currently working as a <b>Software Development Intern</b>
-                            at <b>Omnee Technologies Corp.</b> where I get to avidly learn, hone my skills in software development, and explore new programming languages, design patterns, and frameworks. <br><br>Over the course of my education/work experience I've become passionate about <b>Web Development</b>, 
-                            <b>Mobile App Development</b>, and <b>Artificial Intelligence.</b></rich-text>
+                            <rich-text tag="p">As a <b>Computer Science student</b> at the University of Saskatchewan, I have been fortunate to gain practical experience as a <b>Software Development Intern</b> at <b>Omnee Technologies Corp.</b> This has allowed me to avidly learn, sharpen my skills in software development, 
+                                and investigate new programming languages, design patterns, and frameworks. <br><br>Throughout my education and work experience, I have developed a passion for <b>Web Development</b>, <b>Mobile App Development</b>, and <b>Artificial Intelligence.</b> I am eager to continue learning and growing in these areas, 
+                                and I am excited to see where my career in the tech industry will take me.
+                            </rich-text>
                         </div>    
                     </div>
                </div>
