@@ -1,7 +1,6 @@
 import {NavigationItem} from '@/types/links';
 import {SocialMedia} from '@/types/links'
 
-
 export const navigation: NavigationItem[] = [
   {
     text: 'Home',

@@ -2,12 +2,12 @@ import { Project } from '@/types/project'
 
 export const projects: Project[] = [
   {
-    title: `Airport Management System`,
-    picture: 'images/ams.png',
-    description: 'A desktop application intended for an airport to manage the day-to-day operations of its business, such as managing gates’ flights, managing employee schedules, managing flight schedules, etc. Built in an agile team of 5.',
+    title: `Target Trainer Application`,
+    picture: 'images/TargetTrainer.png',
+    description: "A JavaFX application that enables users to design and evaluate target-based user interfaces. The app features an editor that allows users to create, arrange, and modify targets, as well as a testing mode that measures their performance using Fitts' Law. Other features include undo/redo and clipboard support.",
     live: ``,
-    github: 'https://github.com/MoBensaleh/AirportManagementSystem',
-    technologies: ['Java', 'JavaFX', 'SQLite']
+    github: 'https://github.com/MoBensaleh/Target-Trainer-Application',
+    technologies: ['Java', 'JavaFX', 'Git']
   },
   {
     title: `Omnee GetQuote`,
@@ -18,12 +18,28 @@ export const projects: Project[] = [
     technologies: ['VueJs', 'SCSS', 'Laravel']
   },
   {
+    title: `Airport Management System`,
+    picture: 'images/ams.png',
+    description: 'A desktop application intended for an airport to manage the day-to-day operations of its business, such as managing gates’ flights, managing employee schedules, managing flight schedules, etc. Built in an agile team of 5.',
+    live: ``,
+    github: 'https://github.com/MoBensaleh/AirportManagementSystem',
+    technologies: ['Java', 'JavaFX', 'SQLite', 'Git']
+  },
+  {
+    title: `State Machine Visual Editor App`,
+    picture: 'images/VisualEditor.png',
+    description: "The JavaFX project is an interactive editor for building state-machine diagrams. It has features for creating and editing nodes, linking them with transitions, and customizing their properties. It also has multiple synchronized views and is built with immediate-mode graphics and a complex MVC architecture.",
+    live: ``,
+    github: 'https://github.com/MoBensaleh/Visual-Editor-App',
+    technologies: ['Java', 'JavaFX', 'Git']
+  },
+  {
     title: `Curses Labyrinth`,
     picture: `images/CursesLabyrinth.png`,
     description: 'A 2D top-down game in which a player must evade the AI and complete tasks within a procedurally generated map using items to aid them in their escape.',
     live: 'https://mobensaleh.itch.io/curses-labyrinth',
     github: 'https://github.com/MoBensaleh/CursesLabyrinth',
-    technologies: ['Unity', 'C#']
+    technologies: ['Unity', 'C#', 'Git']
   },
   {
     title: `Portfolio Website`,
@@ -31,6 +47,6 @@ export const projects: Project[] = [
     description: 'My responsive portfolio website!',
     live: 'https://www.mohamedbensaleh.com/',
     github: 'https://github.com/MoBensaleh/portfolio-website-v2',
-    technologies: ['NuxtJs', 'TypeScript', 'SCSS', 'GSAP']
+    technologies: ['NuxtJs', 'TypeScript', 'SCSS', 'GSAP', 'Tailwindcss', 'Git']
   },
 ]

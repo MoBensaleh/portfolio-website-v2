@@ -6,7 +6,7 @@
                     <rich-text tag="h1" class="text-6xl">About Me</rich-text>
                     <rich-text tag="h1" class="text-lg dot">.</rich-text>
                 </div>
-               <div class="w-100 lg:mt-12">
+               <div class="w-100 lg:mt-20">
                     <div class="flex justify-between items-center flex-col lg:flex-row">
                        <div>
                             <div ref="profileImg" class="profile__wrapper profile__wrapper--round">
@@ -33,7 +33,7 @@
                             </div>
                         </div>
                         <div ref="bio"  class="text-sm profile__about mt-10 pb-10 lg:mt-0 lg:pb-0">
-                            <rich-text tag="p">As a <b>Computer Science student</b> at the University of Saskatchewan, I have been fortunate to gain practical experience as a <b>Software Development Intern</b> at <b>Omnee Technologies Corp.</b> This has allowed me to avidly learn, sharpen my skills in software development, 
+                            <rich-text tag="p" class="text-lg">As a <b>Computer Science student</b> at the University of Saskatchewan, I have been fortunate to gain practical experience as a <b>Software Development Intern</b> at <b>Omnee Technologies Corp.</b> This has allowed me to avidly learn, sharpen my skills in software development, 
                                 and investigate new programming languages, design patterns, and frameworks. <br><br>Throughout my education and work experience, I have developed a passion for <b>Web Development</b>, <b>Mobile App Development</b>, and <b>Artificial Intelligence.</b> I am eager to continue learning and growing in these areas, 
                                 and I am excited to see where my career in the tech industry will take me.
                             </rich-text>

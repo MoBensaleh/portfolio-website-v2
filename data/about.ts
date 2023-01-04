@@ -1,6 +1,5 @@
 import { About } from '@/types/pages'
 
-
 export const about: About = {
   firstName: 'Mohamed',
   lastName: 'Bensaleh',

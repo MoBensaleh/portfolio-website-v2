@@ -6,14 +6,12 @@
         <span ref="title">{{project.title}}</span
         ><span ref="cursor" class="dot">_</span>
       </h2>
-      <rich-text tag="p" class="project__description text-sm pt-1">
-        {{ project.description }}
-      </rich-text>
-      <div class="project__links">
+      <div class="project__links my-2">
         <a
           v-if="project.live"
           class="project__link link"
           :href="project.live"
+          @mouseenter="onLinkHover('Play with it')"
         >
           Live
         </a>
@@ -21,11 +19,25 @@
           v-if="project.github"
           class="project__link link"
           :href="project.github"
+          @mouseenter="onLinkHover('Check code')"
         >
           Code
         </a>
       </div>
+      <rich-text tag="p" class="project__description text-sm my-2">
+        {{ project.description }}
+      </rich-text>
+      <div class="project__technologies_container py-4 mt-3 px-3">
+        <rich-text tag="h3" class="text-lg mb-4">
+          Built with
+        </rich-text>
+        <div class="project__technologies">
+          <rich-text tag="b" v-for="technology in project.technologies" :key="technology" class="project__technology px-2 py-1">{{technology}}</rich-text>
+        </div>
+      </div>
     </div>
+    
+
     <div class="project__media">
       <div ref="project-window" class="window">
         <div class="window__header">
@@ -83,12 +95,32 @@ export default Vue.extend({
   },
   data() {
     return {
+      titleTimeline: null as unknown as gsap.core.Timeline,
+      titleScrollTimeline: null as unknown as gsap.core.Timeline,
+      cursorTimeline: null as unknown as gsap.core.Timeline,
+      previousText: '',
+      timeout: null as any,
+      lastFilter: 'show-all',
+      titleObserver: null as unknown as IntersectionObserver,
+      windowObserver: null as unknown as IntersectionObserver,
   
     };
   },
   mounted(){
-      const cursorRef = this.$refs.cursor as Element;
-      this.createCursorTimeline(cursorRef).play();
+    const cursorRef = this.$refs[`cursor`] as Element;
+    const titleRef = this.$refs[`title`] as Element;
+    this.cursorTimeline = this.createCursorTimeline(cursorRef).pause(0.5);
+    this.titleTimeline = this.createTitleTimeline(
+      titleRef,
+      this.project.title
+    ).pause(0);
+    this.titleScrollTimeline = this.createTitleTimeline(
+      titleRef,
+      this.project.title
+    )
+      .pause(0)
+      .add(this.cursorTimeline.play(0));
+
   },
 
   methods: {
@@ -109,6 +141,37 @@ export default Vue.extend({
         }
       );
       return tl;
+    },
+
+    createTitleTimeline(titleRef: Element, text: string) {
+      const tl = gsap.timeline();
+      tl.add(this.textAnimation(titleRef, text));
+      return tl;
+    },
+
+    onLinkHover(text: string) {
+      if (text === this.previousText) return;
+      if (text !== this.project.title && this.timeout > 0) {
+        clearTimeout(this.timeout);
+      }
+      this.titleScrollTimeline.pause(0);
+      this.previousText = text;
+      const titleRef = this.$refs[`title`] as Element;
+      titleRef.innerHTML = '';
+      this.cursorTimeline.pause(0);
+      this.titleTimeline.reverse(this.titleTimeline.time());
+      this.titleTimeline.eventCallback('onReverseComplete', () => {
+        this.titleTimeline = this.createTitleTimeline(titleRef, text);
+        this.titleTimeline.play(0);
+        this.titleTimeline.eventCallback('onComplete', () => {
+          this.cursorTimeline.restart();
+          if (text !== this.project.title) {
+            this.timeout = setTimeout(() => {
+              this.onLinkHover(this.project.title);
+            }, 500);
+          }
+        });
+      });
     },
 
     textAnimation(elem: Element, text: string): gsap.core.Tween {
@@ -138,8 +201,6 @@ a {
   line-height: 1.5;
   text-decoration: none;
 }
-
-
 
 a::before {
   content: "";
@@ -182,10 +243,36 @@ a:hover::before {
   &__links {
     padding-left: rem(25px);
   }
+  &__technologies_container {
+    @include flex(center, center, column);
+    @include size(100%, auto);
+    -webkit-box-shadow:0 0 15px var(--primary);
+    -moz-box-shadow: 0 0 15px var(--primary); 
+    box-shadow:0 0 15px var(--primary);
+    border-radius: 20px;
+
+  }
+  &__technologies{
+    @include flex(center, space-around);
+    flex-wrap: wrap;
+    gap: 12px;
+    @include size(100%, auto);
+  }
+
+  &__technology{
+    border: 2px solid var(--primary);
+    background-color: var(--primary);
+    color: var(--background);
+    border-radius: 50px;
+    min-width: 70px;
+    text-align: center;
+
+    
+  }
+
   &__links {
     @include flex(center, flex-start);
-    margin-top: auto;
-    padding-top: rem(10px);
+    
   }
   &__link {
     margin-right: 35%;
