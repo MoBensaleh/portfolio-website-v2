@@ -10,6 +10,14 @@ export const projects: Project[] = [
     technologies: ['Java', 'JavaFX', 'Git']
   },
   {
+    title: `A* Pathfinding Visualization`,
+    picture: 'images/Pathfinding.png',
+    description: "A python visualization of the A* path finding algorithm. It allows you to pick your start and end location and view the process of finding the shortest path.",
+    live: ``,
+    github: 'https://github.com/MoBensaleh/A-Path-Finding-Visualization',
+    technologies: ['Python', 'PyGame', 'Git']
+  },
+  {
     title: `Omnee GetQuote`,
     picture: 'images/OmneeGetQuote.png',
     description: 'A multi-page form style website built for Omnee Technologies Inc. Worked on styling, SEO, and performance optimization.',
