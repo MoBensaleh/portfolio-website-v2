@@ -19,7 +19,7 @@
           <base-button :button-text="'Who am I?'" :button-link="'/about'"></base-button>
         </div>
       </div>
-      <img id="profile_pic" src="images/Mohamed.png" ref="profilePic" alt="Mohamed"/>
+      <img id="profile_pic" src="images/MohamedBensaleh.jpg" ref="profilePic" alt="Mohamed"/>
     </section>
   </div>
 </template>
