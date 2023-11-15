@@ -2,6 +2,14 @@ import { Project } from '@/types/project'
 
 export const projects: Project[] = [
   {
+    title: `Footy Fetch ⚽`,
+    picture: 'images/FootyFetch.png',
+    description: "A MERN stack application designed to showcase my dual passions for soccer and cutting-edge technology, particularly in the realms of AI and data analytics. The application fetches and categorizes soccer-related posts from r/soccer, provides data analytics on posts and user interactions, and integrates with the OpenAI ChatGPT API for enriched user engagement.",
+    live: `https://footy-fetch.vercel.app/`,
+    github: 'https://github.com/MoBensaleh/Footy-Fetch',
+    technologies: ['ReactJs', 'TypeScript', 'Node.js', 'Express.js', 'MongoDB', 'MaterialUI', 'SCSS/CSS', 'Reddit API', 'OpenAI ChatGPT API']
+  },
+  {
     title: `Target Trainer Application`,
     picture: 'images/TargetTrainer.png',
     description: "A JavaFX application that enables users to design and evaluate target-based user interfaces. The app features an editor that allows users to create, arrange, and modify targets, as well as a testing mode that measures their performance using Fitts' Law. Other features include undo/redo and clipboard support.",

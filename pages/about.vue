@@ -7,7 +7,7 @@
                     <rich-text tag="h1" class="text-lg dot">.</rich-text>
                 </div>
                <div class="w-100 lg:mt-20">
-                    <div class="flex justify-between items-center flex-col lg:flex-row">
+                    <div class="flex justify-between items-center  flex-col lg:items-start lg:flex-row">
                        <div>
                             <div ref="profileImg" class="profile__wrapper profile__wrapper--round">
                                 <img
@@ -33,10 +33,22 @@
                             </div>
                         </div>
                         <div ref="bio"  class="text-sm profile__about mt-10 pb-10 lg:mt-0 lg:pb-0">
-                            <rich-text tag="p" class="text-lg">As a <b>Computer Science student</b> at the University of Saskatchewan, I have been fortunate to gain practical experience as a <b>Software Development Intern</b> at <b>Omnee Technologies Corp.</b> This has allowed me to avidly learn, sharpen my skills in software development, 
-                                and investigate new programming languages, design patterns, and frameworks. <br><br>Throughout my education and work experience, I have developed a passion for <b>Web Development</b>, <b>Mobile App Development</b>, and <b>Artificial Intelligence.</b> I am eager to continue learning and growing in these areas, 
-                                and I am excited to see where my career in the tech industry will take me.
+                            <rich-text tag="p" class="text-lg">
+                                As a <b>senior Computer Science student</b> at the University of Saskatchewan, with a minor in Mathematics, I've immersed myself in the tech world, expanding my horizons beyond the classroom. My journey includes internships at renowned organizations like the <b>Royal Bank of Canada</b> and <b>Omnee</b>, where I've honed my skills in software development and project management.
+                            
+                                <br><br>
+                            
+                                My experience as a <b>Full Stack Developer Intern</b> at the <b>Royal Bank of Canada</b> in Toronto, and previously as a <b>Software Engineer Intern</b> in Calgary, has given me a deep understanding of the financial tech landscape. Here, I've led significant projects, such as improving <b>accessibility</b> in web applications and streamlining <b>data transformation</b> tools. My role at <b>Omnee</b> further solidified my expertise, especially in <b>web development</b>, where I led the front-end rebuild of the corporate website, significantly enhancing its performance and user experience.
+                            
+                                <br><br>
+                            
+                                I'm passionate about <b>Web and Mobile App Development</b>, and my interests extend to the realms of <b>Artificial Intelligence</b> and <b>Data Analytics</b>. My academic background, enriched with courses in <b>AI, deep learning,</b> and <b>software engineering</b>, complements my practical experience. Notably, I've been involved in hackathons, such as the <b>RBC internal hackathon</b> and <b>Hack the Change 2023</b>, where my team and I developed innovative solutions like a business advisor tool and a platform for sustainable investing, earning accolades for creativity and impact.
+                            
+                                <br><br>
+                            
+                                Eager to contribute my skills and continue my growth, I am excited to explore opportunities where I can make a meaningful impact in the tech industry, bringing a blend of technical prowess and a keen sense for innovative solutions.
                             </rich-text>
+                            
                         </div>    
                     </div>
                </div>
