@@ -1,153 +1,185 @@
 <template>
-    <div >
-        <section ref="about" class="about">
-            <div ref="aboutGroup" class="about__group">
-                <div ref="aboutText" class="about__text" >
-                    <rich-text tag="h1" class="text-6xl">About Me</rich-text>
-                    <rich-text tag="h1" class="text-lg dot">.</rich-text>
-                </div>
-               <div class="w-100 lg:mt-20">
-                    <div class="flex justify-between items-center  flex-col lg:items-start lg:flex-row">
-                       <div>
-                            <div ref="profileImg" class="profile__wrapper profile__wrapper--round">
-                                <img
-                                    :src="about.myImage"
-                                    class="profile__img "
-                                    border-radius="50%"
-                                />
-                            </div>
-                            <div class="flex justify-center">
-                                <ul ref="profileLinks" class="profile__links">
-                                    <li v-for="link in links" :key="link.icon" class="profile__link">
-                                    <a
-                                        class="profile__a"
-                                        :href="link.href"
-                                        target="_blank"
-                                    >
-                                        <svg class="profile__svg">
-                                        <use :href="iconPath(link.icon)" />
-                                        </svg>
-                                    </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div ref="bio"  class="text-sm profile__about mt-10 pb-10 lg:mt-0 lg:pb-0">
-                            <rich-text tag="p" class="text-lg">
-                                As a <b>senior Computer Science student</b> at the University of Saskatchewan, with a minor in Mathematics, I've immersed myself in the tech world, expanding my horizons beyond the classroom. My journey includes internships at renowned organizations like the <b>Royal Bank of Canada</b> and <b>Omnee</b>, where I've honed my skills in software development and project management.
-                            
-                                <br><br>
-                            
-                                My experience as a <b>Full Stack Developer Intern</b> at the <b>Royal Bank of Canada</b> in Toronto, and previously as a <b>Software Engineer Intern</b> in Calgary, has given me a deep understanding of the financial tech landscape. Here, I've led significant projects, such as improving <b>accessibility</b> in web applications and streamlining <b>data transformation</b> tools. My role at <b>Omnee</b> further solidified my expertise, especially in <b>web development</b>, where I led the front-end rebuild of the corporate website, significantly enhancing its performance and user experience.
-                            
-                                <br><br>
-                            
-                                I'm passionate about <b>Web and Mobile App Development</b>, and my interests extend to the realms of <b>Artificial Intelligence</b> and <b>Data Analytics</b>. My academic background, enriched with courses in <b>AI, deep learning,</b> and <b>software engineering</b>, complements my practical experience. Notably, I've been involved in hackathons, such as the <b>RBC internal hackathon</b> and <b>Hack the Change 2023</b>, where my team and I developed innovative solutions like a business advisor tool and a platform for sustainable investing, earning accolades for creativity and impact.
-                            
-                                <br><br>
-                            
-                                Eager to contribute my skills and continue my growth, I am excited to explore opportunities where I can make a meaningful impact in the tech industry, bringing a blend of technical prowess and a keen sense for innovative solutions.
-                            </rich-text>
-                            
-                        </div>    
-                    </div>
-               </div>
+  <div>
+    <section ref="about" class="about">
+      <div ref="aboutGroup" class="about__group">
+        <div ref="aboutText" class="about__text">
+          <rich-text tag="h1" class="text-6xl">About Me</rich-text>
+          <rich-text tag="h1" class="text-lg dot">.</rich-text>
+        </div>
+        <div class="w-100 lg:mt-20">
+          <div
+            class="flex justify-between items-center flex-col lg:items-start lg:flex-row"
+          >
+            <div>
+              <div
+                ref="profileImg"
+                class="profile__wrapper profile__wrapper--round"
+              >
+                <img
+                  :src="about.myImage"
+                  class="profile__img"
+                  border-radius="50%"
+                />
+              </div>
+              <div class="flex justify-center">
+                <ul ref="profileLinks" class="profile__links">
+                  <li
+                    v-for="link in links"
+                    :key="link.icon"
+                    class="profile__link"
+                  >
+                    <a class="profile__a" :href="link.href" target="_blank">
+                      <svg class="profile__svg">
+                        <use :href="iconPath(link.icon)" />
+                      </svg>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
-        </section>
-    </div>
+            <div
+              ref="bio"
+              class="text-sm profile__about mt-10 pb-10 lg:mt-0 lg:pb-0"
+            >
+              <rich-text tag="p" class="text-lg">
+                Hi there! I’m Mohamed, a recent graduate from the
+                <b>University of Saskatchewan</b> and an enthusiastic ML
+                Engineer at
+                <b
+                  ><a target="_blank" href="https://rbcborealis.com/"
+                    >RBC Borealis AI</a
+                  ></b
+                >, where I get to blend my passion for Generative AI, Machine
+                Learning, and cutting-edge technology into meaningful solutions.
+                From building distributed systems to experimenting with the
+                latest in AI research, I’m constantly chasing innovation to make
+                a real-world impact.
+
+                <p>
+                  With a strong foundation in <b>Python</b>, <b>TensorFlow</b>,
+                  <b>PyTorch</b>, <b>React</b>, and <b>TypeScript</b>, I thrive
+                  at the intersection of <b>engineering</b> and
+                  <b>creativity</b>. Whether it’s crafting robust machine
+                  learning models or building intuitive full-stack applications,
+                  I love diving into challenging projects that push boundaries.
+                </p>
+
+                <p>
+                  Beyond the code, you’ll often find me brainstorming ways to
+                  enhance <b>Generative AI workflows</b> or experimenting with<b
+                    >new tools and frameworks</b
+                  >
+                  to bring ideas to life. I’m also a strong believer in
+                  collaboration and enjoy connecting with like-minded folks who
+                  share a love for tech, learning, and innovation.
+                </p>
+                <p>
+                  ☕ When I’m not coding or exploring the latest ML frameworks,
+                  you can find me discovering new coffee shops, brainstorming at
+                  hackathons, or tinkering with side projects for fun. Thanks
+                  for dropping by my portfolio—feel free to reach out if you’d
+                  like to chat about AI, web dev, or the next great coffee spot!
+                </p>
+
+                <p>
+                  I’d love to connect, collaborate, and create! Let’s build
+                  something amazing together. 🚀
+                </p>
+              </rich-text>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { gsap } from "gsap";
+import { gsap } from 'gsap'
 import RichText from '~/components/RichText.vue'
 import { about } from '@/data/about'
 import { About } from '@/types/pages'
 import { links } from '@/data/navigation'
-import {SocialMedia} from '@/types/links'
+import { SocialMedia } from '@/types/links'
 
-    export default Vue.extend({
-        name: 'About' as string,
-        components: {
-            RichText,
+export default Vue.extend({
+  name: 'About' as string,
+  components: {
+    RichText,
+  },
+  data() {
+    return {
+      about: about as About,
+      links: links as SocialMedia[],
+    }
+  },
+  mounted() {
+    this.animateFading(1)
+    this.animateHero()
+  },
+
+  methods: {
+    iconPath(icon: string): string {
+      return require('@/assets/sprite.svg') + '#' + icon
+    },
+    animateFading(delay: number) {
+      gsap.set(this.$refs.profileImg as any, {
+        autoAlpha: 0,
+      })
+      gsap.set(this.$refs.profileLinks as any, {
+        autoAlpha: 0,
+      })
+      gsap.to(this.$refs.profileImg as any, {
+        autoAlpha: 1,
+        duration: 1,
+        delay,
+      })
+      gsap.to(this.$refs.profileLinks as any, {
+        autoAlpha: 1,
+        duration: 1,
+        delay,
+      })
+    },
+
+    animateHero(): void {
+      if (!process.client) return
+      const aboutText = this.$refs.aboutText as any
+      const aboutGroup = this.$refs.aboutGroup as any
+      const bio = this.$refs.bio as any
+      const tl = gsap.timeline({
+        defaults: { ease: 'ease.in', duration: 0.5 },
+      })
+
+      tl.set(aboutText.querySelectorAll('h1'), {
+        opacity: 0,
+        yPercent: 50,
+      })
+
+      tl.set(bio.querySelector('p'), {
+        opacity: 0,
+        yPercent: 20,
+      })
+
+      tl.from(
+        aboutGroup,
+        {
+          autoAlpha: 0,
         },
-        data() {
-            return {
-                about: about as About,
-                links: links as SocialMedia[]
-            }
-        },
-        mounted(){
-            this.animateFading(1);
-            this.animateHero()
+        '0'
+      )
 
-        },
-
-        methods: {
-            iconPath(icon: string): string {
-                return require('@/assets/sprite.svg') + '#' + icon;
-            },
-            animateFading(delay: number) {
-                gsap.set(this.$refs.profileImg as any, {
-                    autoAlpha: 0,
-                });
-                gsap.set(this.$refs.profileLinks as any, {
-                    autoAlpha: 0,
-                });
-                gsap.to(this.$refs.profileImg as any, {
-                    autoAlpha: 1,
-                    duration: 1,
-                    delay,
-                });
-                gsap.to(this.$refs.profileLinks as any, {
-                    autoAlpha: 1,
-                    duration: 1,
-                    delay,
-                });
-            },
-
-
-
-            animateHero(): void {
-                if (!process.client) return;
-                const aboutText = this.$refs.aboutText as any
-                const aboutGroup = this.$refs.aboutGroup as any
-                const bio = this.$refs.bio as any
-                const tl = gsap.timeline({
-                    defaults: { ease: 'ease.in', duration: 0.5 },
-                });
-             
-                tl.set(aboutText.querySelectorAll('h1'), {
-                    opacity: 0,
-                    yPercent: 50,
-                });
-
-                tl.set(bio.querySelector('p'), {
-                    opacity: 0,
-                    yPercent: 20,
-                });
-        
-                tl.from(
-                    aboutGroup,
-                    {
-                    autoAlpha: 0,
-                    },
-                    '0'
-                );
-                
-                tl.to(aboutText.querySelectorAll('h1'), {
-                    opacity: 1,
-                    yPercent: 0,
-                })
-                tl.to(bio.querySelector('p'), {
-                    opacity: 1,
-                    yPercent: 0,
-                })
-            },
-  
-            
-        }
-    })
+      tl.to(aboutText.querySelectorAll('h1'), {
+        opacity: 1,
+        yPercent: 0,
+      })
+      tl.to(bio.querySelector('p'), {
+        opacity: 1,
+        yPercent: 0,
+      })
+    },
+  },
+})
 </script>
 
 <style lang="scss" scoped>
@@ -157,17 +189,15 @@ import {SocialMedia} from '@/types/links'
   @include size(100%, auto);
   color: var(--primary);
   max-width: $max-width;
-  margin-right:auto;
-  margin-left:auto;
+  margin-right: auto;
+  margin-left: auto;
   padding: 0 rem(25px) rem($nav-height);
 
-  &__text{
+  &__text {
     display: none;
     @media screen and (min-width: 1024px) {
-        @include flex(baseline, flex-start, row);
-        
+      @include flex(baseline, flex-start, row);
     }
-
   }
 }
 
@@ -179,11 +209,10 @@ import {SocialMedia} from '@/types/links'
     border-radius: $border-radius;
     @include size(rem(200px), rem(200px));
     @media screen and (min-width: 1024px) {
-        @include size(rem(260px), rem(260px));
+      @include size(rem(260px), rem(260px));
     }
     &--round {
       border-radius: 50%;
-      
     }
   }
   &__img {
@@ -196,9 +225,9 @@ import {SocialMedia} from '@/types/links'
     }
   }
   &__about {
-      @include size(100%, auto);
-      @media screen and (min-width: 1024px) {
-        @include size(65%, auto);
+    @include size(100%, auto);
+    @media screen and (min-width: 1024px) {
+      @include size(65%, auto);
     }
   }
   &__links {
@@ -206,13 +235,17 @@ import {SocialMedia} from '@/types/links'
     @include size(100%, 100%);
     margin-top: rem(20px);
     margin-right: rem(0px);
-    padding: .2rem 0 .2rem 0;
+    padding: 0.2rem 0 0.2rem 0;
     background-color: var(--transparentBg);
     border-radius: $border-radius;
     border: double 6px transparent;
-    background-image: linear-gradient(var(--transparentBg), var(--transparentBg));
-    
-    border-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='100' height='100' viewBox='0 0 100 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cstyle%3Epath%7Banimation:stroke 5s infinite linear%3B%7D%40keyframes stroke%7Bto%7Bstroke-dashoffset:776%3B%7D%7D%3C/style%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232d3561' /%3E%3Cstop offset='25%25' stop-color='%23c05c7e' /%3E%3Cstop offset='50%25' stop-color='%23f3826f' /%3E%3Cstop offset='100%25' stop-color='%23ffb961' /%3E%3C/linearGradient%3E %3Cpath d='M1.5 1.5 l97 0l0 97l-97 0 l0 -97' stroke-linecap='square' stroke='url(%23g)' stroke-width='3' stroke-dasharray='388'/%3E %3C/svg%3E") 1;
+    background-image: linear-gradient(
+      var(--transparentBg),
+      var(--transparentBg)
+    );
+
+    border-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='100' height='100' viewBox='0 0 100 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cstyle%3Epath%7Banimation:stroke 5s infinite linear%3B%7D%40keyframes stroke%7Bto%7Bstroke-dashoffset:776%3B%7D%7D%3C/style%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232d3561' /%3E%3Cstop offset='25%25' stop-color='%23c05c7e' /%3E%3Cstop offset='50%25' stop-color='%23f3826f' /%3E%3Cstop offset='100%25' stop-color='%23ffb961' /%3E%3C/linearGradient%3E %3Cpath d='M1.5 1.5 l97 0l0 97l-97 0 l0 -97' stroke-linecap='square' stroke='url(%23g)' stroke-width='3' stroke-dasharray='388'/%3E %3C/svg%3E")
+      1;
   }
 
   &__a {
@@ -232,7 +265,4 @@ import {SocialMedia} from '@/types/links'
     }
   }
 }
-
-
-
 </style>
