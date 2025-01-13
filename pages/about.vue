@@ -66,9 +66,8 @@
 
                 <p>
                   Beyond the code, you’ll often find me brainstorming ways to
-                  enhance <b>Generative AI workflows</b> or experimenting with<b
-                    >new tools and frameworks</b
-                  >
+                  enhance <b>Generative AI workflows</b> or experimenting with
+                  <b>new tools and frameworks</b>
                   to bring ideas to life. I’m also a strong believer in
                   collaboration and enjoy connecting with like-minded folks who
                   share a love for tech, learning, and innovation.
