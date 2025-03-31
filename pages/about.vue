@@ -42,7 +42,7 @@
               class="text-sm profile__about mt-10 pb-10 lg:mt-0 lg:pb-0"
             >
               <rich-text tag="p" class="text-lg">
-                Hi there! I’m Mohamed, a recent graduate from the
+                Hi there! I’m Moe, a recent graduate from the
                 <b>University of Saskatchewan</b> and an enthusiastic ML
                 Engineer at
                 <b

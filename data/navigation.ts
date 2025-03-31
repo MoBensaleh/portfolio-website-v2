@@ -20,14 +20,14 @@ export const navigation: NavigationItem[] = [
   {
     text: 'Contact',
     icon: 'contact',
-    to: 'mailto:mohamed.bensaleh@usask.ca',
+    to: 'mailto:mobensaleh10@gmail.com',
   },
 ];
 
 export const links: SocialMedia[] = [
   {
     icon: 'linkedin',
-    href: 'https://www.linkedin.com/in/mohamedbensaleh/',
+    href: 'https://www.linkedin.com/in/moebensaleh/',
   },
   {
     icon: 'github',
