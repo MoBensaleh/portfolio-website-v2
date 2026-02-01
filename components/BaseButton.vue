@@ -1,31 +1,29 @@
 <template>
   <div class="button-container">
-   
-    <nuxt-link
+    <NuxtLink
       class="button"
       :to="buttonLink"
     >
       {{ buttonText }}
-    </nuxt-link>
-
+    </NuxtLink>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-export default Vue.extend({
-  name: 'Button',
+import { defineComponent } from 'vue'
+export default defineComponent({
+  name: 'BaseButton',
   props: {
     buttonText: {
       required: true,
-      type: String
+      type: String,
     },
-    buttonLink:{
+    buttonLink: {
       required: true,
-      type: String
-    }
+      type: String,
+    },
   },
-});
+})
 </script>
 
 <style scoped lang="scss">

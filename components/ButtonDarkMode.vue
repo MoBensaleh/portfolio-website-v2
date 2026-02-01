@@ -50,42 +50,42 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-export default Vue.extend({
-  name: 'MyButtonDarkMode',
+import { defineComponent } from 'vue'
+export default defineComponent({
+  name: 'ButtonDarkMode',
   data() {
     return {
       isDark: false,
-    };
+    }
   },
   mounted() {
     const darkModeMediaQuery = window.matchMedia(
       '(prefers-color-scheme: dark)'
-    );
-    this.isDark = darkModeMediaQuery.matches;
-    this.toggleDarkModeClasses();
+    )
+    this.isDark = darkModeMediaQuery.matches
+    this.toggleDarkModeClasses()
     darkModeMediaQuery.addEventListener('change', (e: MediaQueryListEvent) => {
-      this.isDark = e.matches;
-      this.toggleDarkModeClasses();
-    });
+      this.isDark = e.matches
+      this.toggleDarkModeClasses()
+    })
   },
   methods: {
     toggleDarkMode(_event?: Event): void {
-      this.isDark = !this.isDark;
-      this.toggleDarkModeClasses();
+      this.isDark = !this.isDark
+      this.toggleDarkModeClasses()
     },
     toggleDarkModeClasses() {
-      const html = document.querySelector('html');
+      const html = document.documentElement
       if (this.isDark) {
-        html?.classList.add('dark-scheme');
-        html?.classList.remove('light-scheme');
+        html?.classList.add('dark-scheme')
+        html?.classList.remove('light-scheme')
       } else {
-        html?.classList.add('light-scheme');
-        html?.classList.remove('dark-scheme');
+        html?.classList.add('light-scheme')
+        html?.classList.remove('dark-scheme')
       }
     },
   },
-});
+})
 </script>
 
 <style scoped lang="scss">

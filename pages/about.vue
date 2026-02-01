@@ -18,6 +18,7 @@
                 <img
                   :src="about.myImage"
                   class="profile__img"
+                  alt="Profile photo"
                   border-radius="50%"
                 />
               </div>
@@ -28,7 +29,12 @@
                     :key="link.icon"
                     class="profile__link"
                   >
-                    <a class="profile__a" :href="link.href" target="_blank">
+                    <a
+                      class="profile__a"
+                      :href="link.href"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <svg class="profile__svg">
                         <use :href="iconPath(link.icon)" />
                       </svg>
@@ -41,19 +47,24 @@
               ref="bio"
               class="text-sm profile__about mt-10 pb-10 lg:mt-0 lg:pb-0"
             >
-              <rich-text tag="p" class="text-lg">
-                Hi there! I’m Moe, a recent graduate from the
-                <b>University of Saskatchewan</b> and an enthusiastic ML
-                Engineer at
-                <b
-                  ><a target="_blank" href="https://rbcborealis.com/"
-                    >RBC Borealis AI</a
-                  ></b
-                >, where I get to blend my passion for Generative AI, Machine
-                Learning, and cutting-edge technology into meaningful solutions.
-                From building distributed systems to experimenting with the
-                latest in AI research, I’m constantly chasing innovation to make
-                a real-world impact.
+              <rich-text tag="div" class="text-lg">
+                <p>
+                  Hi there! I’m Mo, a recent graduate from the
+                  <b>University of Saskatchewan</b> and an enthusiastic ML
+                  Engineer at
+                  <b
+                    ><a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="https://rbcborealis.com/"
+                      >RBC Borealis AI</a
+                    ></b
+                  >, where I get to blend my passion for Generative AI, Machine
+                  Learning, and cutting-edge technology into meaningful solutions.
+                  From building distributed systems to experimenting with the
+                  latest in AI research, I’m constantly chasing innovation to make
+                  a real-world impact.
+                </p>
 
                 <p>
                   With a strong foundation in <b>Python</b>, <b>TensorFlow</b>,
@@ -94,16 +105,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import { gsap } from 'gsap'
+import spriteUrl from '@/assets/sprite.svg?url'
 import RichText from '~/components/RichText.vue'
 import { about } from '@/data/about'
-import { About } from '@/types/pages'
+import type { About } from '@/types/pages'
 import { links } from '@/data/navigation'
-import { SocialMedia } from '@/types/links'
+import type { SocialMedia } from '@/types/links'
 
-export default Vue.extend({
-  name: 'About' as string,
+export default defineComponent({
+  name: 'About',
   components: {
     RichText,
   },
@@ -120,21 +132,24 @@ export default Vue.extend({
 
   methods: {
     iconPath(icon: string): string {
-      return require('@/assets/sprite.svg') + '#' + icon
+      return `${spriteUrl}#${icon}`
     },
     animateFading(delay: number) {
-      gsap.set(this.$refs.profileImg as any, {
+      const profileImg = this.$refs.profileImg as HTMLElement | undefined
+      const profileLinks = this.$refs.profileLinks as HTMLElement | undefined
+      if (!profileImg || !profileLinks) return
+      gsap.set(profileImg, {
         autoAlpha: 0,
       })
-      gsap.set(this.$refs.profileLinks as any, {
+      gsap.set(profileLinks, {
         autoAlpha: 0,
       })
-      gsap.to(this.$refs.profileImg as any, {
+      gsap.to(profileImg, {
         autoAlpha: 1,
         duration: 1,
         delay,
       })
-      gsap.to(this.$refs.profileLinks as any, {
+      gsap.to(profileLinks, {
         autoAlpha: 1,
         duration: 1,
         delay,
@@ -142,10 +157,12 @@ export default Vue.extend({
     },
 
     animateHero(): void {
-      if (!process.client) return
-      const aboutText = this.$refs.aboutText as any
-      const aboutGroup = this.$refs.aboutGroup as any
-      const bio = this.$refs.bio as any
+      if (!import.meta.client) return
+      const aboutText = this.$refs.aboutText as HTMLElement | undefined
+      const aboutGroup = this.$refs.aboutGroup as HTMLElement | undefined
+      const bio = this.$refs.bio as HTMLElement | undefined
+      const bioParagraphs = bio?.querySelectorAll('p')
+      if (!aboutText || !aboutGroup || !bio || !bioParagraphs?.length) return
       const tl = gsap.timeline({
         defaults: { ease: 'ease.in', duration: 0.5 },
       })
@@ -155,7 +172,7 @@ export default Vue.extend({
         yPercent: 50,
       })
 
-      tl.set(bio.querySelector('p'), {
+      tl.set(bioParagraphs, {
         opacity: 0,
         yPercent: 20,
       })
@@ -172,9 +189,12 @@ export default Vue.extend({
         opacity: 1,
         yPercent: 0,
       })
-      tl.to(bio.querySelector('p'), {
+      tl.to(bioParagraphs, {
         opacity: 1,
         yPercent: 0,
+        stagger: 0.08,
+        duration: 0.45,
+        ease: 'power2.out',
       })
     },
   },

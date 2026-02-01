@@ -8,16 +8,17 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  export default Vue.extend({
-    props: {
-      tag: {
-        type: String as () => string,
-        required: false,
-        default: 'div'
-      }
+import { defineComponent } from 'vue'
+import type { PropType } from 'vue'
+
+export default defineComponent({
+  props: {
+    tag: {
+      type: String as PropType<string>,
+      default: 'div',
     },
-  })
+  },
+})
 </script>
 
 <style lang="scss" scoped>
@@ -37,7 +38,7 @@
   p {
     line-height: 1.75;
     font-weight: var(--font-weight-normal);
-    font-family: Open sans, sans-serif;
+    font-family: 'Open Sans', sans-serif;
   }
   img {
     @include size(75%, 75%);

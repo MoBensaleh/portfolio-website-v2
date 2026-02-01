@@ -1,91 +1,94 @@
 <template>
-    <div >
-        <section ref="project" class="projects">
-            <div ref="projectGroup" class="project__group">
-                <div ref="projectText" class="project__text flex items-baseline" >
-                    <rich-text tag="h1" class="text-6xl">Projects</rich-text>
-                    <rich-text tag="h1" class="text-lg dot">.</rich-text>
-                </div>
-                <div ref="projectList" class="projects__list-wrapper">
-                    <ul class="projects__list">
-                        <li
-                        v-for="project in projects" 
-                        :key="project.title"
-                        class="projects__project list-complete-item"
-                        >
-                        <project-card :key="project.title" :project="project"></project-card>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-    </div>
+  <div>
+    <section ref="project" class="projects">
+      <div ref="projectGroup" class="project__group">
+        <div ref="projectText" class="project__text flex items-baseline">
+          <rich-text tag="h1" class="text-6xl">Projects</rich-text>
+          <rich-text tag="h1" class="text-lg dot">.</rich-text>
+        </div>
+        <div ref="projectList" class="projects__list-wrapper">
+          <ul class="projects__list">
+            <li
+              v-for="project in projects"
+              :key="project.title"
+              class="projects__project list-complete-item"
+            >
+              <project-card :project="project"></project-card>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { gsap } from "gsap";
+import { defineComponent } from 'vue'
+import { gsap } from 'gsap'
 import RichText from '~/components/RichText.vue'
 import ProjectCard from '~/components/ProjectCard.vue'
 import { projects } from '~/data/projects'
-import { Project } from '~/types/project'
-    export default Vue.extend({
-        components: {
-            RichText,
-            ProjectCard 
-        },
-        data() {
-            return {
-                projects: projects as Project[]
-            }
-        },
-        mounted(){
-            this.animateProjects();
-            this.animateFading(1);
+import type { Project } from '~/types/project'
 
-        },
+export default defineComponent({
+  components: {
+    RichText,
+    ProjectCard,
+  },
+  data() {
+    return {
+      projects: projects as Project[],
+    }
+  },
+  mounted() {
+    this.animateProjects()
+    this.animateFading(1)
+  },
 
-        methods: {
-            animateProjects(): void {
-                const projects = this.$refs.project as Element;
-                const projectGroup = this.$refs.projectGroup as Element;
-                const projectText = this.$refs.projectText as Element;
-                const tl = gsap.timeline({
-                    defaults: { ease: 'ease.in', duration: 0.5 },
-                });
-            
-                tl.set(projectText.querySelectorAll('h1'), {
-                    opacity: 0,
-                    yPercent: 50,
-                });
-            
-                tl.from(projects, {
-                    autoAlpha: 0,
-                });
-                tl.from(
-                    projectGroup,
-                    {
-                    autoAlpha: 0,
-                    },
-                    '0'
-                );
-                tl.to(projectText.querySelectorAll('h1'), {
-                    opacity: 1,
-                    yPercent: 0,
-                });
-            },
-            animateFading(delay: number) {
-                gsap.set(this.$refs.projectList as Element, {
-                    autoAlpha: 0,
-                });
-                gsap.to(this.$refs.projectList as Element, {
-                    autoAlpha: 1,
-                    duration: 1,
-                    delay,
-                });
-            },
-        }
-    })
+  methods: {
+    animateProjects(): void {
+      const projectsRef = this.$refs.project as HTMLElement | undefined
+      const projectGroup = this.$refs.projectGroup as HTMLElement | undefined
+      const projectText = this.$refs.projectText as HTMLElement | undefined
+      if (!projectsRef || !projectGroup || !projectText) return
+      const tl = gsap.timeline({
+        defaults: { ease: 'ease.in', duration: 0.5 },
+      })
+
+      tl.set(projectText.querySelectorAll('h1'), {
+        opacity: 0,
+        yPercent: 50,
+      })
+
+      tl.from(projectsRef, {
+        autoAlpha: 0,
+      })
+      tl.from(
+        projectGroup,
+        {
+          autoAlpha: 0,
+        },
+        '0'
+      )
+      tl.to(projectText.querySelectorAll('h1'), {
+        opacity: 1,
+        yPercent: 0,
+      })
+    },
+    animateFading(delay: number) {
+      const projectList = this.$refs.projectList as HTMLElement | undefined
+      if (!projectList) return
+      gsap.set(projectList, {
+        autoAlpha: 0,
+      })
+      gsap.to(projectList, {
+        autoAlpha: 1,
+        duration: 1,
+        delay,
+      })
+    },
+  },
+})
 </script>
 
 <style lang="scss" scoped>
@@ -95,11 +98,11 @@ import { Project } from '~/types/project'
   @include size(100%, auto);
   color: var(--primary);
   max-width: $max-width;
-  margin-right:auto;
-  margin-left:auto;
+  margin-right: auto;
+  margin-left: auto;
   padding: 0 rem(25px) rem($nav-height);
   &__list-wrapper {
-    visibility: hidden; 
+    visibility: hidden;
   }
   &__list {
     display: grid;
@@ -138,6 +141,4 @@ import { Project } from '~/types/project'
     visibility: hidden;
   }
 }
-
-
 </style>

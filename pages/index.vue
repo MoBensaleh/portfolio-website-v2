@@ -5,7 +5,9 @@
         <div ref="heroText" class="hero__text">
           <div class="flex row items-center">
             <rich-text tag="h1" class="text-6xl mr-3">Hi</rich-text>
-            <span class="wave"><img src="images/Hand.gif" /></span>
+            <span class="wave">
+              <img src="/images/Hand.gif" alt="Waving hand" />
+            </span>
             <rich-text tag="h1" class="text-6xl">,</rich-text>
           </div>
           <div class="flex row items-baseline">
@@ -21,40 +23,41 @@
         </div>
         <div class="inline-flex mt-9 hero__buttons">
           <base-button
-            :button-text="'Discover my projects'"
-            :button-link="'/projects'"
+            button-text="Discover my projects"
+            button-link="/projects"
           ></base-button>
           <base-button
-            :button-text="'Who am I?'"
-            :button-link="'/about'"
+            button-text="Who am I?"
+            button-link="/about"
           ></base-button>
         </div>
       </div>
-      <img
-        id="profile_pic"
-        src="images/MohamedB.jpg"
+      <particle-portrait
         ref="profilePic"
+        src="/images/MohamedB.png"
         alt="Mohamed"
+        color="var(--primary)"
+        :image-scale="0.98"
+        :key-tolerance="40"
+        :silhouette-alpha="0.28"
+        :image-layer-alpha="0.24"
+        class="profile-particle"
       />
     </section>
   </div>
 </template>
 
-<script lang="ts" >
-import Vue from 'vue'
+<script lang="ts">
+import { defineComponent } from 'vue'
 import { gsap } from 'gsap'
-import { TextPlugin } from 'gsap/TextPlugin'
 import RichText from '~/components/RichText.vue'
-import { About } from '@/types/pages'
+import type { About } from '@/types/pages'
 import { about } from '@/data/about'
 import BaseButton from '~/components/BaseButton.vue'
+import ParticlePortrait from '~/components/ParticlePortrait.vue'
 
-if (process.client) {
-  gsap.registerPlugin(TextPlugin)
-}
-
-export default Vue.extend({
-  components: { RichText, BaseButton },
+export default defineComponent({
+  components: { RichText, BaseButton, ParticlePortrait },
 
   data() {
     return {
@@ -64,8 +67,9 @@ export default Vue.extend({
   mounted() {
     this.animateHero()
 
-    const titleRef = this.$refs.title as Element
-    const cursor = this.$refs.cursor as Element
+    const titleRef = this.$refs.title as HTMLElement | undefined
+    const cursor = this.$refs.cursor as HTMLElement | undefined
+    if (!titleRef || !cursor) return
     const masterTl = gsap.timeline({ repeat: -1 })
 
     gsap.to(cursor, { opacity: 0, ease: 'power2.inOut', repeat: -1 })
@@ -78,52 +82,55 @@ export default Vue.extend({
   },
   methods: {
     animateHero(): void {
-      const hero = this.$refs.hero as Element
-      const heroGroup = this.$refs.heroGroup as Element
-      const heroText = this.$refs.heroText as Element
-      const profilePic = this.$refs.profilePic as Element
+      const hero = this.$refs.hero as HTMLElement | undefined
+      const heroGroup = this.$refs.heroGroup as HTMLElement | undefined
+      const heroText = this.$refs.heroText as HTMLElement | undefined
+      const profilePicRef = this.$refs.profilePic as
+        | { el?: HTMLElement; $el?: HTMLElement }
+        | HTMLElement
+        | undefined
+      const profilePic =
+        profilePicRef && 'el' in profilePicRef
+          ? profilePicRef.el ?? profilePicRef.$el
+          : profilePicRef
+      const heroTextEls = heroText?.querySelectorAll('h1, p, .wave')
+      const heroButtons = heroGroup?.querySelectorAll(
+        '.hero__buttons > *'
+      ) as NodeListOf<HTMLElement> | null
+      if (!hero || !heroGroup || !heroText || !profilePic || !heroTextEls)
+        return
       const tl = gsap.timeline({
         defaults: { ease: 'ease.in', duration: 0.5 },
       })
 
-      tl.set(heroText.querySelector('h1'), {
-        opacity: 0,
-        yPercent: 50,
-      })
+      tl.set([hero, heroGroup], { autoAlpha: 1 })
+      tl.set(heroTextEls, { autoAlpha: 0, y: 20 })
+      if (heroButtons?.length) {
+        tl.set(heroButtons, { autoAlpha: 0, y: 16 })
+      }
 
-      tl.from(hero, {
-        autoAlpha: 0,
+      tl.from(hero, { autoAlpha: 0, duration: 0.4 })
+      tl.from(heroGroup, { autoAlpha: 0, duration: 0.4 }, '<')
+      tl.to(heroTextEls, {
+        autoAlpha: 1,
+        y: 0,
+        stagger: 0.08,
+        duration: 0.5,
+        ease: 'power2.out',
       })
-      tl.from(
-        heroGroup,
-        {
-          autoAlpha: 0,
-        },
-        '0'
-      )
-      tl.to(heroText.querySelector('h1'), {
-        opacity: 1,
-        yPercent: 0,
-      })
-      tl.from(
-        profilePic,
-        {
-          autoAlpha: 0,
-          duration: 1,
-        },
-        '<'
-      )
-    },
-
-    textAnimation(elem: Element, text: string): gsap.core.Tween {
-      return gsap.to(elem, {
-        id: 'textAnimation',
-        duration: text.length / 16,
-        text: {
-          value: text,
-        },
-        ease: 'none',
-      })
+      if (heroButtons?.length) {
+        tl.to(
+          heroButtons,
+          {
+            autoAlpha: 1,
+            y: 0,
+            stagger: 0.1,
+            duration: 0.45,
+            ease: 'power2.out',
+          },
+          '-=0.2'
+        )
+      }
     },
   },
 })
@@ -133,24 +140,6 @@ export default Vue.extend({
 @use '~/assets/styles/global/variables' as *;
 @use '~/assets/styles/mixins/mixins' as *;
 
-#profile_pic {
-  visibility: hidden;
-  width: 220px;
-  @include flex(center, center, row);
-  filter: url(#dropshadow);
-  transition: filter 0.15s linear;
-  border: 10px solid var(--primary);
-  border-radius: $border-radius;
-  background: rgba(251, 249, 243, 0.06);
-  min-height: 3em;
-  resize: both;
-  object-fit: cover;
-  margin-top: rem(40px);
-  @media screen and (min-width: 1024px) {
-    width: 280px;
-    margin: 0;
-  }
-}
 .wave {
   width: 40px;
   height: auto;
@@ -158,6 +147,12 @@ export default Vue.extend({
   top: 3px;
   @media screen and (min-width: 1024px) {
     width: 60px;
+  }
+}
+.profile-particle {
+  margin-top: rem(40px);
+  @media screen and (min-width: 1024px) {
+    margin-top: 0;
   }
 }
 .hero {
@@ -191,7 +186,7 @@ export default Vue.extend({
     @media screen and (min-width: 1024px) {
       @include size(100%, 100%);
       @include absolute(-60px, auto, auto, -55px);
-      display: bπlock;
+      display: block;
       max-height: rem(100px);
       max-width: rem(100px);
       color: var(--tertiary);

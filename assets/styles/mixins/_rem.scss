@@ -22,7 +22,11 @@ $rem-px-only: false !default;
     $test-list: list.append($test-list, $item, space);
   }
 
-  @return if($test-list == $list, space, comma);
+  @if $test-list == $list {
+    @return space;
+  }
+
+  @return comma;
 }
 
 @mixin rem-baseline($zoom: 100%) {
@@ -48,7 +52,11 @@ $rem-px-only: false !default;
     }
   }
 
-  @return if(list.length($result) == 1, list.nth($result, 1), $result);
+  @if list.length($result) == 1 {
+    @return list.nth($result, 1);
+  }
+
+  @return $result;
 }
 
 @function rem($values...) {

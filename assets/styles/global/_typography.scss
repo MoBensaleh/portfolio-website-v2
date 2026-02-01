@@ -3,21 +3,21 @@
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: url(~assets/fonts/OpenSans-Light.ttf);
+  src: url('~/assets/fonts/OpenSans-Light.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(~assets/fonts/OpenSans-Bold.ttf);
+  src: url('~/assets/fonts/OpenSans-Bold.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Jost';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(~assets/fonts/Jost-Bold.ttf);
+  src: url('~/assets/fonts/Jost-Bold.ttf') format('truetype');
 }
 
 

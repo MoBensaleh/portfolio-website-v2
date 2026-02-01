@@ -3,8 +3,8 @@
     <div class="project__group">
       <h2 class="project__title">
         <span class="dot">></span>
-        <span ref="title">{{project.title}}</span
-        ><span ref="cursor" class="dot">_</span>
+        <span ref="title">{{ project.title }}</span>
+        <span ref="cursor" class="dot">_</span>
       </h2>
       <div class="project__links my-2">
         <a
@@ -32,14 +32,20 @@
           Built with
         </rich-text>
         <div class="project__technologies">
-          <rich-text tag="b" v-for="technology in project.technologies" :key="technology" class="project__technology px-2 py-1">{{technology}}</rich-text>
+          <rich-text
+            v-for="technology in project.technologies"
+            :key="technology"
+            tag="b"
+            class="project__technology px-2 py-1"
+          >
+            {{ technology }}
+          </rich-text>
         </div>
       </div>
     </div>
-    
 
     <div class="project__media">
-      <div ref="project-window" class="window">
+      <div class="window">
         <div class="window__header">
           <svg class="window__buttons">
             <circle
@@ -72,8 +78,8 @@
         <img
           v-if="project.picture"
           :src="project.picture"
+          :alt="project.title"
           class="window__image"
-        
         />
       </div>
     </div>
@@ -81,16 +87,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { gsap } from 'gsap';
-import { Project } from '~/types/project';
+import { defineComponent } from 'vue'
+import type { PropType } from 'vue'
+import { gsap } from 'gsap'
+import type { Project } from '~/types/project'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'ProjectCard',
   props: {
     project: {
-      type: Object as () => Project,
-      default: () => ({} as Project),
+      type: Object as PropType<Project>,
+      required: true,
     },
   },
   data() {
@@ -99,36 +106,32 @@ export default Vue.extend({
       titleScrollTimeline: null as unknown as gsap.core.Timeline,
       cursorTimeline: null as unknown as gsap.core.Timeline,
       previousText: '',
-      timeout: null as any,
-      lastFilter: 'show-all',
-      titleObserver: null as unknown as IntersectionObserver,
-      windowObserver: null as unknown as IntersectionObserver,
-  
-    };
+      timeout: null as ReturnType<typeof setTimeout> | null,
+    }
   },
-  mounted(){
-    const cursorRef = this.$refs[`cursor`] as Element;
-    const titleRef = this.$refs[`title`] as Element;
-    this.cursorTimeline = this.createCursorTimeline(cursorRef).pause(0.5);
+  mounted() {
+    const cursorRef = this.$refs.cursor as HTMLElement | undefined
+    const titleRef = this.$refs.title as HTMLElement | undefined
+    if (!cursorRef || !titleRef) return
+    this.cursorTimeline = this.createCursorTimeline(cursorRef).pause(0.5)
     this.titleTimeline = this.createTitleTimeline(
       titleRef,
       this.project.title
-    ).pause(0);
+    ).pause(0)
     this.titleScrollTimeline = this.createTitleTimeline(
       titleRef,
       this.project.title
     )
       .pause(0)
-      .add(this.cursorTimeline.play(0));
-
+      .add(this.cursorTimeline.play(0))
   },
 
   methods: {
-    createCursorTimeline(cursorRef: Element) {
+    createCursorTimeline(cursorRef: Element): gsap.core.Timeline {
       const tl = gsap.timeline({
         repeat: -1,
         yoyo: true,
-      });
+      })
       tl.fromTo(
         cursorRef,
         {
@@ -139,39 +142,40 @@ export default Vue.extend({
           duration: 0.5,
           ease: 'steps(1)',
         }
-      );
-      return tl;
+      )
+      return tl
     },
 
-    createTitleTimeline(titleRef: Element, text: string) {
-      const tl = gsap.timeline();
-      tl.add(this.textAnimation(titleRef, text));
-      return tl;
+    createTitleTimeline(titleRef: Element, text: string): gsap.core.Timeline {
+      const tl = gsap.timeline()
+      tl.add(this.textAnimation(titleRef, text))
+      return tl
     },
 
-    onLinkHover(text: string) {
-      if (text === this.previousText) return;
-      if (text !== this.project.title && this.timeout > 0) {
-        clearTimeout(this.timeout);
+    onLinkHover(text: string): void {
+      if (text === this.previousText) return
+      if (text !== this.project.title && this.timeout) {
+        clearTimeout(this.timeout)
       }
-      this.titleScrollTimeline.pause(0);
-      this.previousText = text;
-      const titleRef = this.$refs[`title`] as Element;
-      titleRef.innerHTML = '';
-      this.cursorTimeline.pause(0);
-      this.titleTimeline.reverse(this.titleTimeline.time());
+      this.titleScrollTimeline.pause(0)
+      this.previousText = text
+      const titleRef = this.$refs.title as HTMLElement | undefined
+      if (!titleRef) return
+      titleRef.textContent = ''
+      this.cursorTimeline.pause(0)
+      this.titleTimeline.reverse(this.titleTimeline.time())
       this.titleTimeline.eventCallback('onReverseComplete', () => {
-        this.titleTimeline = this.createTitleTimeline(titleRef, text);
-        this.titleTimeline.play(0);
+        this.titleTimeline = this.createTitleTimeline(titleRef, text)
+        this.titleTimeline.play(0)
         this.titleTimeline.eventCallback('onComplete', () => {
-          this.cursorTimeline.restart();
+          this.cursorTimeline.restart()
           if (text !== this.project.title) {
             this.timeout = setTimeout(() => {
-              this.onLinkHover(this.project.title);
-            }, 500);
+              this.onLinkHover(this.project.title)
+            }, 500)
           }
-        });
-      });
+        })
+      })
     },
 
     textAnimation(elem: Element, text: string): gsap.core.Tween {
@@ -182,10 +186,10 @@ export default Vue.extend({
           value: text,
         },
         ease: 'none',
-      });
+      })
     },
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>
@@ -193,7 +197,7 @@ export default Vue.extend({
 @use '~/assets/styles/mixins/mixins' as *;
 a {
   position: relative;
-   @include inline-flex(center, flex-start);
+  @include inline-flex(center, flex-start);
   color: var(--primary);
   background-color: transparent;
   font-weight: 700;

@@ -1,11 +1,16 @@
-import { About } from '@/types/pages'
+import type { About } from '@/types/pages'
 
 export const about: About = {
-  firstName: 'Moe',
+  firstName: 'Mo',
   lastName: 'Bensaleh',
-  myImage: 'images/mohamed-01.png',
-  roles: ["Machine Learning Engineer.", "Software Developer.", "Web Developer.", "Distributed Systems Enthusiast."],
+  myImage: '/images/mohamed-01.png',
+  roles: [
+    'Machine Learning Engineer.',
+    'Software Engineer.',
+    'Web Developer.',
+    'Distributed Systems Enthusiast.',
+    'cool guy 😎',
+  ],
   city: 'Calgary',
   province: 'Alberta',
-
 }

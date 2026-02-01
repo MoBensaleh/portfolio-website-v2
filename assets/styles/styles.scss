@@ -6,3 +6,39 @@
 @use "./global/_reset";
 @use "./global/_color";
 @use "./global/_typography";
+
+// Page / layout transitions
+.page-enter-active,
+.page-leave-active,
+.layout-enter-active,
+.layout-leave-active {
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.page-enter-from,
+.layout-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.page-leave-to,
+.layout-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter-active,
+  .page-leave-active,
+  .layout-enter-active,
+  .layout-leave-active {
+    transition: none;
+  }
+  .page-enter-from,
+  .layout-enter-from,
+  .page-leave-to,
+  .layout-leave-to {
+    opacity: 1;
+    transform: none;
+  }
+}

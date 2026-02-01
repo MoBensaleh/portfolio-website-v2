@@ -1,10 +1,10 @@
 export interface SocialMedia {
-    icon: string;
-    href: string;
-  }
-  
-  export interface NavigationItem {
-    text: string;
-    icon: string;
-    to: string;
-  }
+  icon: string
+  href: string
+}
+
+export interface NavigationItem {
+  text: string
+  icon: string
+  to: string
+}
