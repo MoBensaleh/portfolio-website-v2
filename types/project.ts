@@ -4,5 +4,6 @@ export interface Project {
   description: string
   live: string
   github: string
+  website?: string
   technologies: string[]
 }

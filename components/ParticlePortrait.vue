@@ -10,6 +10,11 @@
     @pointerleave="onPointerLeave"
     @pointerdown="onPointerEnter"
     @pointerup="onPointerLeave"
+    @mousemove="onMouseMove"
+    @mouseenter="onPointerEnter"
+    @mouseleave="onPointerLeave"
+    @touchmove.passive="onTouchMove"
+    @touchend="onPointerLeave"
     @focus="onPointerEnter"
     @blur="onPointerLeave"
   >
@@ -80,6 +85,12 @@ let resizeObserver: ResizeObserver | null = null
 let silhouetteLayer: HTMLCanvasElement | null = null
 let silhouetteCtx: CanvasRenderingContext2D | null = null
 let imageLayer: HTMLCanvasElement | null = null
+let resizeRafId = 0
+let loadToken = 0
+let resizeTimer: ReturnType<typeof setTimeout> | null = null
+let currentDpr = 1
+let currentWidth = 0
+let currentHeight = 0
 
 const parseColor = (value: string) => {
   const hex = value.replace('#', '')
@@ -105,13 +116,27 @@ const resetPointer = () => {
   pointer.value.y = -1000
 }
 
-const onPointerMove = (event: PointerEvent) => {
+const updatePointer = (clientX: number, clientY: number) => {
   if (prefersReducedMotion.value) return
   if (!canvas.value) return
   const rect = canvas.value.getBoundingClientRect()
-  pointer.value.x = event.clientX - rect.left
-  pointer.value.y = event.clientY - rect.top
+  pointer.value.x = clientX - rect.left
+  pointer.value.y = clientY - rect.top
   pointer.value.active = true
+}
+
+const onPointerMove = (event: PointerEvent) => {
+  updatePointer(event.clientX, event.clientY)
+}
+
+const onMouseMove = (event: MouseEvent) => {
+  updatePointer(event.clientX, event.clientY)
+}
+
+const onTouchMove = (event: TouchEvent) => {
+  const touch = event.touches[0]
+  if (!touch) return
+  updatePointer(touch.clientX, touch.clientY)
 }
 
 const onPointerEnter = () => {
@@ -136,14 +161,16 @@ const resolveColor = (value: string) => {
 const resizeCanvas = () => {
   if (!canvas.value || !root.value) return
   const rect = root.value.getBoundingClientRect()
-  const dpr = Math.min(window.devicePixelRatio || 1, 2)
-  canvas.value.width = Math.max(1, Math.round(rect.width * dpr))
-  canvas.value.height = Math.max(1, Math.round(rect.height * dpr))
-  canvas.value.style.width = `${rect.width}px`
-  canvas.value.style.height = `${rect.height}px`
+  currentDpr = Math.min(window.devicePixelRatio || 1, 2)
+  currentWidth = Math.max(1, Math.round(rect.width))
+  currentHeight = Math.max(1, Math.round(rect.height))
+  canvas.value.width = Math.max(1, Math.round(currentWidth * currentDpr))
+  canvas.value.height = Math.max(1, Math.round(currentHeight * currentDpr))
+  canvas.value.style.width = `${currentWidth}px`
+  canvas.value.style.height = `${currentHeight}px`
   ctx = canvas.value.getContext('2d')
   if (ctx) {
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    ctx.setTransform(currentDpr, 0, 0, currentDpr, 0, 0)
     ctx.lineCap = 'round'
   }
 }
@@ -157,8 +184,8 @@ const colorDistance = (r: number, g: number, b: number, key: number[]) => {
 
 const buildParticles = (image: HTMLImageElement) => {
   if (!canvas.value || !ctx) return
-  const width = canvas.value.width / (window.devicePixelRatio || 1)
-  const height = canvas.value.height / (window.devicePixelRatio || 1)
+  const width = currentWidth
+  const height = currentHeight
   if (props.showSilhouette) {
     silhouetteLayer = document.createElement('canvas')
     silhouetteLayer.width = Math.round(width)
@@ -320,8 +347,8 @@ const buildParticles = (image: HTMLImageElement) => {
 
 const drawFrame = () => {
   if (!canvas.value || !ctx) return
-  const width = canvas.value.width / (window.devicePixelRatio || 1)
-  const height = canvas.value.height / (window.devicePixelRatio || 1)
+  const width = currentWidth
+  const height = currentHeight
 
   ctx.clearRect(0, 0, width, height)
   if (!imageLoaded) return
@@ -402,11 +429,15 @@ const animate = () => {
 
 const loadImage = () => {
   if (!props.src) return
+  const token = ++loadToken
   imageLoaded = false
   const image = new Image()
   image.crossOrigin = 'anonymous'
   image.src = props.src
-  image.onload = () => buildParticles(image)
+  image.onload = () => {
+    if (token !== loadToken) return
+    buildParticles(image)
+  }
   image.onerror = () => {
     if (root.value) {
       root.value.style.visibility = 'visible'
@@ -428,8 +459,17 @@ onMounted(() => {
   }
   if (root.value) {
     resizeObserver = new ResizeObserver(() => {
-      resizeCanvas()
-      loadImage()
+      if (resizeTimer) {
+        clearTimeout(resizeTimer)
+      }
+      resizeTimer = setTimeout(() => {
+        cancelAnimationFrame(resizeRafId)
+        resizeRafId = requestAnimationFrame(() => {
+          resizeCanvas()
+          resetPointer()
+          loadImage()
+        })
+      }, 120)
     })
     resizeObserver.observe(root.value)
   }
@@ -451,6 +491,10 @@ watch(
 
 onBeforeUnmount(() => {
   cancelAnimationFrame(rafId)
+  cancelAnimationFrame(resizeRafId)
+  if (resizeTimer) {
+    clearTimeout(resizeTimer)
+  }
   resizeObserver?.disconnect()
 })
 
@@ -461,12 +505,16 @@ defineExpose({
 
 <style scoped lang="scss">
 .particle-portrait {
-  width: clamp(300px, 44vw, 600px);
+  width: clamp(340px, 50vw, 680px);
+  max-width: 100%;
   aspect-ratio: 1 / 1;
   visibility: hidden;
   cursor: crosshair;
   outline: none;
   touch-action: none;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
 
 .particle-portrait__canvas {

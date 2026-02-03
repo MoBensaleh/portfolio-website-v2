@@ -16,9 +16,12 @@
             >
             <rich-text tag="h1" class="text-lg dot">.</rich-text>
           </div>
-          <rich-text tag="p" class="text-lg"
-            >I'm a <b ref="title" class="inline font-w500"></b
-            ><span ref="cursor" class="dot">_</span>
+          <rich-text tag="p" class="text-lg hero__typing"
+            >I'm a
+            <span ref="typingWrap" class="typing-wrap">
+              <b ref="title" class="typing-text font-w500"></b>
+              <span ref="cursor" class="typing-cursor dot">_</span>
+            </span>
           </rich-text>
         </div>
         <div class="inline-flex mt-9 hero__buttons">
@@ -69,14 +72,26 @@ export default defineComponent({
 
     const titleRef = this.$refs.title as HTMLElement | undefined
     const cursor = this.$refs.cursor as HTMLElement | undefined
+    const typingWrap = this.$refs.typingWrap as HTMLElement | undefined
     if (!titleRef || !cursor) return
     const masterTl = gsap.timeline({ repeat: -1 })
 
     gsap.to(cursor, { opacity: 0, ease: 'power2.inOut', repeat: -1 })
 
+    const updateCursor = () => {
+      if (!typingWrap || !titleRef) return
+      const width = titleRef.getBoundingClientRect().width
+      typingWrap.style.setProperty('--cursor-x', `${Math.ceil(width) + 2}px`)
+    }
+
     this.about.roles.forEach((word) => {
       const tl = gsap.timeline({ repeat: 1, yoyo: true, repeatDelay: 1 })
-      tl.to(titleRef, { duration: 1, text: word })
+      tl.to(titleRef, {
+        duration: 1,
+        text: word,
+        onUpdate: updateCursor,
+        onComplete: updateCursor,
+      })
       masterTl.add(tl)
     })
   },
@@ -151,9 +166,38 @@ export default defineComponent({
 }
 .profile-particle {
   margin-top: rem(40px);
+  margin-left: auto;
+  margin-right: auto;
+  align-self: center;
   @media screen and (min-width: 1024px) {
     margin-top: 0;
   }
+}
+.hero__typing {
+  min-height: 1.6em;
+  max-width: 100%;
+  line-height: 1.6;
+}
+.typing-wrap {
+  --cursor-x: 0px;
+  display: inline-block;
+  position: relative;
+  min-width: 14ch;
+  @media screen and (min-width: 640px) {
+    min-width: 18ch;
+  }
+  @media screen and (min-width: 1024px) {
+    min-width: 22ch;
+  }
+}
+.typing-text {
+  display: inline-block;
+  white-space: nowrap;
+}
+.typing-cursor {
+  position: absolute;
+  left: var(--cursor-x);
+  top: 0;
 }
 .hero {
   transform: translateY(0) !important;
@@ -176,6 +220,7 @@ export default defineComponent({
     visibility: hidden;
     padding: 0 rem(30px);
     position: relative;
+    width: 100%;
     @media screen and (min-width: 1024px) {
       @include size(100%, auto);
       padding: auto;
@@ -197,8 +242,12 @@ export default defineComponent({
     @include flex(flex-start, flex-start, column);
     z-index: 1;
     margin-top: rem(50px);
+    text-align: center;
+    align-items: center;
     @media screen and (min-width: 1024px) {
       margin-top: 0;
+      text-align: left;
+      align-items: flex-start;
     }
   }
   &__buttons {

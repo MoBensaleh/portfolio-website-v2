@@ -16,6 +16,14 @@
           Live
         </a>
         <a
+          v-if="project.website"
+          class="project__link link"
+          :href="project.website"
+          @mouseenter="onLinkHover('Find out more')"
+        >
+          Website
+        </a>
+        <a
           v-if="project.github"
           class="project__link link"
           :href="project.github"
