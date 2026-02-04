@@ -6,6 +6,10 @@
           <rich-text tag="h1" class="text-6xl">About Me</rich-text>
           <rich-text tag="h1" class="text-lg dot">.</rich-text>
         </div>
+        <div class="about__meta">
+          <span class="about__pill">Based in {{ about.city }}, {{ about.province }}</span>
+          <span class="about__pill">{{ about.roles[0] }}</span>
+        </div>
         <div class="w-100 lg:mt-20">
           <div
             class="flex justify-between items-center flex-col lg:items-start lg:flex-row"
@@ -218,6 +222,25 @@ export default defineComponent({
       @include flex(baseline, flex-start, row);
     }
   }
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(10px);
+    margin: rem(16px) 0 rem(24px);
+    @media screen and (min-width: 1024px) {
+      margin-top: rem(8px);
+    }
+  }
+  &__pill {
+    font-size: rem(12px);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: rem(6px) rem(12px);
+    border-radius: 999px;
+    color: var(--primary);
+    background: rgba(255, 255, 255, 0.06);
+    border: rem(1px) solid rgba(255, 255, 255, 0.08);
+  }
 }
 
 .profile {
@@ -254,34 +277,148 @@ export default defineComponent({
     @include size(100%, 100%);
     margin-top: rem(20px);
     margin-right: rem(0px);
-    padding: 0.2rem 0 0.2rem 0;
-    background-color: var(--transparentBg);
-    border-radius: $border-radius;
-    border: double 6px transparent;
-    background-image: linear-gradient(
-      var(--transparentBg),
-      var(--transparentBg)
-    );
-
-    border-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='100' height='100' viewBox='0 0 100 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cstyle%3Epath%7Banimation:stroke 5s infinite linear%3B%7D%40keyframes stroke%7Bto%7Bstroke-dashoffset:776%3B%7D%7D%3C/style%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232d3561' /%3E%3Cstop offset='25%25' stop-color='%23c05c7e' /%3E%3Cstop offset='50%25' stop-color='%23f3826f' /%3E%3Cstop offset='100%25' stop-color='%23ffb961' /%3E%3C/linearGradient%3E %3Cpath d='M1.5 1.5 l97 0l0 97l-97 0 l0 -97' stroke-linecap='square' stroke='url(%23g)' stroke-width='3' stroke-dasharray='388'/%3E %3C/svg%3E")
-      1;
+    padding: rem(8px) rem(14px);
+    background-color: rgba(255, 255, 255, 0.04);
+    border-radius: 999px;
+    position: relative;
+    overflow: hidden;
+    border: rem(1px) solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+    isolation: isolate;
+    background: rgba(12, 24, 44, 0.7);
+    backdrop-filter: blur(10px);
+    animation: glowPulse 10s ease-in-out infinite;
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: rem(1px);
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.1),
+        rgba(197, 198, 199, 0.25),
+        rgba(255, 255, 255, 0.1)
+      );
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0.8;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 1px;
+      border-radius: inherit;
+      pointer-events: none;
+      z-index: 0;
+      background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.16) 45%,
+        rgba(255, 255, 255, 0) 70%
+      );
+      background: repeating-linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0) 38%,
+        rgba(255, 255, 255, 0.16) 50%,
+        rgba(255, 255, 255, 0) 64%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      background-size: 240% 100%;
+      background-position: 0 0;
+      animation: sheen 18s linear infinite;
+      opacity: 0.7;
+      filter: blur(0.6px);
+      will-change: background-position;
+    }
   }
 
   &__a {
     @include flex(center, center);
+    @include size(rem(44px), rem(44px));
+    border-radius: 999px;
+    border: rem(1px) solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: inset 0 0 0 rem(1px) rgba(255, 255, 255, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    position: relative;
+    z-index: 1;
+    &:hover {
+      transform: translateY(rem(-2px)) scale(1.03);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+      background: rgba(255, 255, 255, 0.08);
+    }
   }
   &__link {
     margin: rem(10px) 0;
+    position: relative;
+    z-index: 1;
+    animation: float 7s ease-in-out infinite;
+    &:nth-child(2) {
+      animation-delay: 0.6s;
+    }
+    &:nth-child(3) {
+      animation-delay: 1.2s;
+    }
   }
   &__svg {
-    @include size(rem(32px), rem(32px));
+    @include size(rem(28px), rem(28px));
     color: var(--secondary);
     stroke: var(--stroke);
     stroke-width: 10;
-    transition: color 0.15s ease-in-out;
+    transition: color 0.2s ease, transform 0.2s ease;
     &:hover {
       color: var(--primary-light);
     }
+  }
+
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+  }
+  50% {
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
+  }
+}
+
+@keyframes sheen {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 240% 0;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(rem(-3px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile__links {
+    animation: none;
+  }
+  .profile__links::before {
+    animation: none;
+  }
+  .profile__links::after {
+    animation: none;
+  }
+  .profile__link {
+    animation: none;
   }
 }
 </style>

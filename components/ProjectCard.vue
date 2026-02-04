@@ -2,52 +2,73 @@
   <section class="project">
     <div class="project__group">
       <h2 class="project__title">
-        <span class="dot">></span>
+        <span class="project__title-marker" aria-hidden="true">&gt;</span>
         <span ref="title">{{ project.title }}</span>
         <span ref="cursor" class="dot">_</span>
       </h2>
-      <div class="project__links my-2">
+      <div class="project__actions my-2">
         <a
           v-if="project.live"
-          class="project__link link"
+          class="project__action"
           :href="project.live"
+          aria-label="Live demo"
+          target="_blank"
+          rel="noopener noreferrer"
           @mouseenter="onLinkHover('Play with it')"
         >
-          Live
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path
+              fill="currentColor"
+              d="M8 5.5a1 1 0 011.5-.86l8 4.5a1 1 0 010 1.72l-8 4.5A1 1 0 018 14.5v-9z"
+            />
+          </svg>
         </a>
         <a
           v-if="project.website"
-          class="project__link link"
+          class="project__action"
           :href="project.website"
+          aria-label="Project website"
+          target="_blank"
+          rel="noopener noreferrer"
           @mouseenter="onLinkHover('Find out more')"
         >
-          Website
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path
+              fill="currentColor"
+              d="M12 2a10 10 0 100 20 10 10 0 000-20zm7.5 9h-3.09a14.9 14.9 0 00-1.5-5.02A8.02 8.02 0 0119.5 11zM12 4c.9 1.2 1.63 2.82 2.03 5H9.97C10.37 6.82 11.1 5.2 12 4zM4.5 13h3.09c.23 1.78.78 3.53 1.5 5.02A8.02 8.02 0 014.5 13zm0-2a8.02 8.02 0 014.59-7.02A14.9 14.9 0 007.59 11H4.5zm7.5 9c-.9-1.2-1.63-2.82-2.03-5h4.06c-.4 2.18-1.13 3.8-2.03 5zm3.91-2.98c.72-1.49 1.27-3.24 1.5-5.02h3.09a8.02 8.02 0 01-4.59 7.02zM16.41 11H7.59c.2-1.82.7-3.56 1.47-5h5.88c.77 1.44 1.27 3.18 1.47 5z"
+            />
+          </svg>
         </a>
         <a
           v-if="project.github"
-          class="project__link link"
+          class="project__action"
           :href="project.github"
+          aria-label="Source code"
+          target="_blank"
+          rel="noopener noreferrer"
           @mouseenter="onLinkHover('Check code')"
         >
-          Code
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path
+              fill="currentColor"
+              d="M12 .5a11.5 11.5 0 00-3.64 22.4c.58.1.8-.24.8-.54v-2.1c-3.26.7-3.95-1.4-3.95-1.4-.54-1.3-1.32-1.66-1.32-1.66-1.08-.72.08-.7.08-.7 1.2.08 1.84 1.2 1.84 1.2 1.06 1.8 2.78 1.28 3.46.98.1-.76.42-1.28.76-1.58-2.6-.3-5.34-1.3-5.34-5.8 0-1.28.46-2.32 1.2-3.14-.12-.3-.52-1.54.12-3.2 0 0 .98-.32 3.2 1.2a11.1 11.1 0 015.82 0c2.22-1.52 3.2-1.2 3.2-1.2.64 1.66.24 2.9.12 3.2.76.82 1.2 1.86 1.2 3.14 0 4.5-2.74 5.5-5.36 5.8.44.38.82 1.1.82 2.24v3.32c0 .3.2.66.8.54A11.5 11.5 0 0012 .5z"
+            />
+          </svg>
         </a>
       </div>
       <rich-text tag="p" class="project__description text-sm my-2">
         {{ project.description }}
       </rich-text>
-      <div class="project__technologies_container py-4 mt-3 px-3">
-        <rich-text tag="h3" class="text-lg mb-4">
-          Built with
-        </rich-text>
+      <div class="project__stack mt-3">
+        <span class="project__stack-label">Stack</span>
         <div class="project__technologies">
-          <rich-text
+          <span
             v-for="technology in project.technologies"
             :key="technology"
-            tag="b"
-            class="project__technology px-2 py-1"
+            class="project__technology"
           >
             {{ technology }}
-          </rich-text>
+          </span>
         </div>
       </div>
     </div>
@@ -203,36 +224,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use '~/assets/styles/global/variables' as *;
 @use '~/assets/styles/mixins/mixins' as *;
-a {
-  position: relative;
-  @include inline-flex(center, flex-start);
-  color: var(--primary);
-  background-color: transparent;
-  font-weight: 700;
-  font-family: var(--font-family-secondary);
-  line-height: 1.5;
-  text-decoration: none;
-}
-
-a::before {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 100%;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: var(--tertiary);
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
-
-a:hover::before {
-  transform: scaleX(1);
-}
-
-
-
 .project {
   height: 100%;
   display: grid;
@@ -244,6 +235,13 @@ a:hover::before {
     font-size: $text-2xl;
     font-weight: 700;
     font-family: var(--font-family-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: rem(10px);
+  }
+  &__title-marker {
+    color: var(--tertiary);
+    transform: translateY(rem(-1px));
   }
   &__group {
     @include flex(flex-start, flex-start, column);
@@ -252,42 +250,59 @@ a:hover::before {
     grid-area: group;
   }
   &__description,
-  &__links {
+  &__actions {
     padding-left: rem(25px);
   }
-  &__technologies_container {
-    @include flex(center, center, column);
-    @include size(100%, auto);
-    -webkit-box-shadow:0 0 15px var(--primary);
-    -moz-box-shadow: 0 0 15px var(--primary); 
-    box-shadow:0 0 15px var(--primary);
-    border-radius: 20px;
-
-  }
-  &__technologies{
-    @include flex(center, space-around);
-    flex-wrap: wrap;
-    gap: 12px;
-    @include size(100%, auto);
-  }
-
-  &__technology{
-    border: 2px solid var(--primary);
-    background-color: var(--primary);
-    color: var(--background);
-    border-radius: 50px;
-    min-width: 70px;
-    text-align: center;
-
-    
-  }
-
-  &__links {
+  &__actions {
     @include flex(center, flex-start);
-    
+    gap: rem(10px);
   }
-  &__link {
-    margin-right: 35%;
+  &__action {
+    @include size(rem(36px), rem(36px));
+    @include flex(center, center);
+    border-radius: 999px;
+    color: var(--primary);
+    border: rem(1px) solid var(--stroke);
+    background: color-mix(in srgb, var(--background) 70%, transparent);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+    text-decoration: none;
+    svg {
+      width: rem(18px);
+      height: rem(18px);
+    }
+    &:hover {
+      transform: translateY(rem(-2px));
+      color: var(--tertiary);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    }
+  }
+  &__stack {
+    @include flex(center, flex-start, row);
+    gap: rem(10px);
+    padding-left: rem(25px);
+    align-items: center;
+  }
+  &__stack-label {
+    font-size: rem(11px);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tertiary);
+    font-family: var(--font-family-secondary);
+  }
+  &__technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(6px);
+    max-width: 100%;
+  }
+  &__technology {
+    font-size: rem(11px);
+    padding: rem(4px) rem(8px);
+    border-radius: 999px;
+    color: var(--primary);
+    background: rgba(255, 255, 255, 0.06);
+    border: rem(1px) solid rgba(255, 255, 255, 0.08);
+    white-space: nowrap;
   }
   &__media {
     grid-area: media;
