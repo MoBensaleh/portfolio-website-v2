@@ -96,6 +96,7 @@ export default defineComponent({
   @include flex(center, center, column);
   margin-top: -16px;
   transform: rotate(90deg);
+  transform-origin: center center;
   position: relative;
   border-radius: $border-radius;
   border: rem(1px) solid var(--stroke);
@@ -152,6 +153,60 @@ export default defineComponent({
     &--selected.switch__svg--light {
       background-color: var(--tertiary);
     }
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .switch {
+    width: rem(40px);
+    height: rem(40px);
+    margin-top: 0;
+    transform: none;
+    padding: rem(6px);
+    border-radius: 999px;
+    border: rem(1px) solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+  }
+  .switch::before {
+    display: none;
+  }
+  .switch__svg {
+    width: rem(22px);
+    height: rem(22px);
+    padding: 0;
+    border: none;
+    background: transparent;
+    border-radius: 999px;
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .switch__svg--selected {
+    opacity: 1;
+  }
+  .switch__svg--selected.switch__svg--dark {
+    background: transparent;
+  }
+  .switch__svg--selected.switch__svg--light {
+    background: transparent;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .switch {
+    width: rem(36px);
+    height: rem(36px);
+    padding: rem(5px);
+  }
+  .switch::before {
+    display: none;
+  }
+  .switch__svg {
+    width: rem(20px);
+    height: rem(20px);
   }
 }
 </style>

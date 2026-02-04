@@ -29,7 +29,7 @@
         </NuxtLink>
       </div>
     </nav>
-    <button-dark-mode class="mr-7" />
+    <button-dark-mode class="header__toggle" />
   </header>
 </template>
 
@@ -133,6 +133,10 @@ a{
   padding: rem(10px);
   font-family: var(--font-family-secondary);
   z-index: 2;
+  @media screen and (max-width: 1023px) {
+    height: 0;
+    padding: 0;
+  }
   &__nav {
     @include fixed(auto, 0, 0, 0);
     @include size(100%, #{rem($nav-height)});
@@ -188,6 +192,18 @@ a{
   &__settings {
     @include size(100%, auto);
     @include flex(center, space-between);
+  }
+  &__toggle {
+    margin-right: rem(28px);
+    @media screen and (max-width: 1023px) {
+      position: fixed;
+      top: max(#{rem(12px)}, env(safe-area-inset-top));
+      right: max(#{rem(12px)}, env(safe-area-inset-right));
+      margin-right: 0;
+      z-index: 3;
+      @include size(rem(40px), rem(40px));
+      @include flex(center, center);
+    }
   }
   &__lang {
     @include size(100%, auto);

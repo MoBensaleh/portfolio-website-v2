@@ -281,6 +281,15 @@ export default defineComponent({
   margin-right: auto;
   margin-left: auto;
   padding: 0 rem(25px) rem($nav-height);
+  .project__text {
+    gap: rem(6px);
+    justify-content: center;
+    text-align: center;
+    @media screen and (min-width: 1024px) {
+      justify-content: flex-start;
+      text-align: left;
+    }
+  }
   &__list-wrapper {
     visibility: hidden;
   }
@@ -298,6 +307,7 @@ export default defineComponent({
     margin-top: rem(50px);
     margin-bottom: rem(50px);
     @media screen and (max-width: 900px) {
+      grid-template-columns: 1fr;
       gap: rem(32px);
       margin-top: rem(32px);
       margin-bottom: rem(40px);

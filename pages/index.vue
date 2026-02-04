@@ -180,11 +180,13 @@ export default defineComponent({
   }
 }
 .profile-particle {
-  margin-top: rem(40px);
+  --portrait-size: min(84vw, 44svh, 320px);
+  margin-top: rem(6px);
   margin-left: auto;
   margin-right: auto;
   align-self: center;
   @media screen and (min-width: 1024px) {
+    --portrait-size: min(42vw, 70vh, 560px);
     margin-top: 0;
   }
 }
@@ -221,16 +223,17 @@ export default defineComponent({
 }
 .hero {
   transform: translateY(0) !important;
-  @include flex(flex-start, center, column);
+  @include flex(center, center, column);
   @include size(100%, auto);
   margin-top: auto;
   color: var(--primary);
   visibility: hidden;
   position: relative;
   max-width: $max-width;
-  padding: rem(20px) rem(16px) calc(#{$nav-height} + #{rem(48px)});
-  min-height: calc(100svh - #{$nav-height});
-  gap: rem(20px);
+  padding: clamp(#{rem(12px)}, 2.6vh, #{rem(24px)}) rem(16px)
+    calc(#{$nav-height} + clamp(#{rem(10px)}, 3vh, #{rem(24px)}));
+  min-height: 100svh;
+  gap: rem(16px);
   @media screen and (min-width: 1024px) {
     flex-direction: row;
     align-items: center;
@@ -337,7 +340,7 @@ export default defineComponent({
 
 @media (max-width: 420px) {
   .hero {
-    padding-top: rem(12px);
+    padding-top: rem(10px);
     gap: rem(16px);
   }
   .hero :deep(.text-6xl) {
@@ -345,6 +348,32 @@ export default defineComponent({
   }
   .hero__buttons {
     margin-top: rem(8px);
+  }
+}
+
+@media (max-height: 700px) {
+  .hero {
+    padding-bottom: calc(#{$nav-height} + #{rem(10px)});
+    gap: rem(12px);
+  }
+  .hero__text {
+    margin-top: 0;
+  }
+  .hero__buttons {
+    margin-top: rem(6px);
+  }
+  .wave {
+    width: 32px;
+  }
+  .profile-particle {
+    --portrait-size: min(78vw, 34svh, 240px);
+    margin-top: rem(4px);
+  }
+}
+
+@media (max-width: 420px) {
+  .profile-particle {
+    --portrait-size: min(80vw, 36svh, 240px);
   }
 }
 </style>

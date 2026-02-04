@@ -280,11 +280,13 @@ export default defineComponent({
     max-width: rem(560px);
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
     @media screen and (min-width: 1024px) {
       @include size(65%, auto);
       max-width: none;
       margin-left: 0;
       margin-right: 0;
+      text-align: left;
     }
   }
   &__links {

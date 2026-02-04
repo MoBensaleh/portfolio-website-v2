@@ -505,7 +505,7 @@ defineExpose({
 
 <style scoped lang="scss">
 .particle-portrait {
-  width: clamp(340px, 50vw, 680px);
+  width: var(--portrait-size, clamp(340px, 50vw, 680px));
   max-width: 100%;
   aspect-ratio: 1 / 1;
   visibility: hidden;
@@ -520,25 +520,31 @@ defineExpose({
 
 @media (max-width: 900px) {
   .particle-portrait {
-    width: min(84vw, 420px);
+    width: var(--portrait-size, min(80vw, 55svh, 420px));
   }
 }
 
 @media (max-width: 600px) {
   .particle-portrait {
-    width: min(80vw, 320px);
+    width: var(--portrait-size, min(78vw, 50svh, 320px));
   }
 }
 
 @media (max-width: 420px) {
   .particle-portrait {
-    width: min(76vw, 280px);
+    width: var(--portrait-size, min(74vw, 45svh, 280px));
   }
 }
 
 @media (max-height: 700px) {
   .particle-portrait {
-    width: min(72vw, 280px);
+    width: var(--portrait-size, min(70vw, 45svh, 280px));
+  }
+}
+
+@media (max-height: 600px) {
+  .particle-portrait {
+    width: var(--portrait-size, min(68vw, 42svh, 260px));
   }
 }
 
