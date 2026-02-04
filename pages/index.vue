@@ -65,6 +65,7 @@ export default defineComponent({
   data() {
     return {
       about: about as About,
+      cursorUpdater: null as (() => void) | null,
     }
   },
   mounted() {
@@ -73,16 +74,25 @@ export default defineComponent({
     const titleRef = this.$refs.title as HTMLElement | undefined
     const cursor = this.$refs.cursor as HTMLElement | undefined
     const typingWrap = this.$refs.typingWrap as HTMLElement | undefined
-    if (!titleRef || !cursor) return
+    if (!titleRef || !cursor || !typingWrap) return
     const masterTl = gsap.timeline({ repeat: -1 })
 
     gsap.to(cursor, { opacity: 0, ease: 'power2.inOut', repeat: -1 })
 
+    const maxChars = Math.max(
+      ...this.about.roles.map((role) => role.length),
+      8
+    )
+    typingWrap.style.setProperty('--typing-max', `${maxChars}ch`)
+
     const updateCursor = () => {
-      if (!typingWrap || !titleRef) return
       const width = titleRef.getBoundingClientRect().width
       typingWrap.style.setProperty('--cursor-x', `${Math.ceil(width) + 2}px`)
     }
+
+    updateCursor()
+    this.cursorUpdater = updateCursor
+    window.addEventListener('resize', updateCursor)
 
     this.about.roles.forEach((word) => {
       const tl = gsap.timeline({ repeat: 1, yoyo: true, repeatDelay: 1 })
@@ -94,6 +104,11 @@ export default defineComponent({
       })
       masterTl.add(tl)
     })
+  },
+  beforeUnmount() {
+    if (this.cursorUpdater) {
+      window.removeEventListener('resize', this.cursorUpdater)
+    }
   },
   methods: {
     animateHero(): void {
@@ -177,18 +192,23 @@ export default defineComponent({
   min-height: 1.6em;
   max-width: 100%;
   line-height: 1.6;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: rem(6px);
+  @media screen and (min-width: 1024px) {
+    justify-content: flex-start;
+  }
 }
 .typing-wrap {
   --cursor-x: 0px;
-  display: inline-block;
+  --typing-max: 18ch;
+  display: inline-flex;
+  align-items: baseline;
   position: relative;
-  min-width: 14ch;
-  @media screen and (min-width: 640px) {
-    min-width: 18ch;
-  }
-  @media screen and (min-width: 1024px) {
-    min-width: 22ch;
-  }
+  width: min(var(--typing-max), 100%);
+  max-width: 100%;
 }
 .typing-text {
   display: inline-block;
@@ -202,28 +222,34 @@ export default defineComponent({
 .hero {
   transform: translateY(0) !important;
   @include flex(center, center, column);
-  @include size(100%, 100%);
+  @include size(100%, auto);
   margin-top: auto;
   color: var(--primary);
   visibility: hidden;
-  position: fixed;
+  position: relative;
   max-width: $max-width;
-  top: 0 !important;
-  bottom: 49px !important;
+  padding: rem(20px) rem(16px) calc(#{$nav-height} + #{rem(24px)});
+  min-height: calc(100svh - #{$nav-height});
   @media screen and (min-width: 1024px) {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    @include size(100%, 100%);
+    padding: 0;
+    position: fixed;
+    top: 0 !important;
     bottom: 0 !important;
   }
   &__group {
     visibility: hidden;
-    padding: 0 rem(30px);
+    padding: 0;
     position: relative;
     width: 100%;
+    max-width: rem(520px);
     @media screen and (min-width: 1024px) {
       @include size(100%, auto);
-      padding: auto;
+      padding: 0;
+      max-width: none;
     }
   }
   &__points {
@@ -241,7 +267,7 @@ export default defineComponent({
     position: relative;
     @include flex(flex-start, flex-start, column);
     z-index: 1;
-    margin-top: rem(50px);
+    margin-top: rem(20px);
     text-align: center;
     align-items: center;
     @media screen and (min-width: 1024px) {
@@ -251,9 +277,31 @@ export default defineComponent({
     }
   }
   &__buttons {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: rem(12px);
+    width: 100%;
+    margin-top: rem(20px);
+    :deep(.button-container) {
+      width: 100%;
+      max-width: rem(320px);
+    }
+    :deep(.button) {
+      width: 100%;
+    }
     @media screen and (min-width: 1024px) {
-      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      width: auto;
+      margin-top: rem(36px);
+      :deep(.button-container) {
+        width: auto;
+        max-width: none;
+      }
+      :deep(.button) {
+        width: auto;
+      }
     }
   }
   &__figure {

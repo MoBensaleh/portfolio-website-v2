@@ -13,4 +13,5 @@ export const about: About = {
   ],
   city: 'Calgary',
   province: 'Alberta',
+  country: 'Canada'
 }

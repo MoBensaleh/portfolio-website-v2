@@ -517,6 +517,18 @@ defineExpose({
   display: block;
 }
 
+@media (max-width: 900px) {
+  .particle-portrait {
+    width: min(86vw, 460px);
+  }
+}
+
+@media (max-width: 600px) {
+  .particle-portrait {
+    width: min(90vw, 360px);
+  }
+}
+
 .particle-portrait__canvas {
   width: 100%;
   height: 100%;

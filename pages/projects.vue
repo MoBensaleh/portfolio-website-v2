@@ -11,6 +11,7 @@
           ref="highlights"
           @mouseenter="stopHighlightAutoplay"
           @mouseleave="startHighlightAutoplay"
+          v-if="!isCompactHighlights"
         >
           <div class="highlights">
             <div class="highlights__viewport">
@@ -149,6 +150,8 @@ export default defineComponent({
       projects: projects as Project[],
       highlightIndex: 0,
       highlightTimer: null as ReturnType<typeof setInterval> | null,
+      isCompactHighlights: false,
+      resizeHandler: null as (() => void) | null,
     }
   },
   computed: {
@@ -160,10 +163,17 @@ export default defineComponent({
   mounted() {
     this.animateProjects()
     this.animateFading(1)
-    this.startHighlightAutoplay()
+    if (import.meta.client) {
+      this.updateHighlightMode()
+      this.resizeHandler = () => this.updateHighlightMode()
+      window.addEventListener('resize', this.resizeHandler)
+    }
   },
   beforeUnmount() {
     this.stopHighlightAutoplay()
+    if (this.resizeHandler) {
+      window.removeEventListener('resize', this.resizeHandler)
+    }
   },
 
   methods: {
@@ -224,8 +234,18 @@ export default defineComponent({
         delay,
       })
     },
+    updateHighlightMode() {
+      const isCompact = window.matchMedia('(max-width: 900px)').matches
+      this.isCompactHighlights = isCompact
+      if (isCompact) {
+        this.highlightIndex = 0
+        this.stopHighlightAutoplay()
+      } else {
+        this.startHighlightAutoplay()
+      }
+    },
     startHighlightAutoplay() {
-      if (this.highlightTimer) return
+      if (this.isCompactHighlights || this.highlightTimer) return
       this.highlightTimer = setInterval(() => {
         this.nextHighlight()
       }, 6000)
@@ -277,6 +297,11 @@ export default defineComponent({
     gap: rem(50px);
     margin-top: rem(50px);
     margin-bottom: rem(50px);
+    @media screen and (max-width: 900px) {
+      gap: rem(32px);
+      margin-top: rem(32px);
+      margin-bottom: rem(40px);
+    }
     @media screen and (min-width: 1024px) {
       grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
       justify-content: flex-start;
@@ -415,6 +440,7 @@ export default defineComponent({
     color: var(--tertiary);
   }
 }
+
 .list-complete {
   will-change: transform;
   &-item {

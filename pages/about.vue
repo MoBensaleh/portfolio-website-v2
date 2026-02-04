@@ -7,7 +7,7 @@
           <rich-text tag="h1" class="text-lg dot">.</rich-text>
         </div>
         <div class="about__meta">
-          <span class="about__pill">Based in {{ about.city }}, {{ about.province }}</span>
+          <span class="about__pill">Based in {{ about.city }}, {{ about.province }}, {{ about.country }}</span>
           <span class="about__pill">{{ about.roles[0] }}</span>
         </div>
         <div class="w-100 lg:mt-20">
@@ -217,9 +217,12 @@ export default defineComponent({
   padding: 0 rem(25px) rem($nav-height);
 
   &__text {
-    display: none;
+    @include flex(baseline, center, row);
+    gap: rem(6px);
+    text-align: center;
     @media screen and (min-width: 1024px) {
       @include flex(baseline, flex-start, row);
+      text-align: left;
     }
   }
   &__meta {
@@ -227,8 +230,10 @@ export default defineComponent({
     flex-wrap: wrap;
     gap: rem(10px);
     margin: rem(16px) 0 rem(24px);
+    justify-content: center;
     @media screen and (min-width: 1024px) {
       margin-top: rem(8px);
+      justify-content: flex-start;
     }
   }
   &__pill {
@@ -249,27 +254,37 @@ export default defineComponent({
     @include size(100%, 100%);
     background-color: var(--shadow);
     border-radius: $border-radius;
-    @include size(rem(200px), rem(200px));
+    --profile-size: clamp(180px, 48vw, 220px);
+    width: var(--profile-size);
+    height: var(--profile-size);
     @media screen and (min-width: 1024px) {
-      @include size(rem(260px), rem(260px));
+      --profile-size: 260px;
     }
     &--round {
       border-radius: 50%;
     }
   }
   &__img {
-    @include size(rem(190px), rem(190px));
+    width: calc(var(--profile-size) - #{rem(10px)});
+    height: calc(var(--profile-size) - #{rem(10px)});
     border-radius: 50%;
     border: rem(10px) solid var(--secondary);
     box-shadow: 0 0 0 rem(2px) var(--stroke);
     @media screen and (min-width: 1024px) {
-      @include size(rem(250px), rem(250px));
+      width: 250px;
+      height: 250px;
     }
   }
   &__about {
     @include size(100%, auto);
+    max-width: rem(560px);
+    margin-left: auto;
+    margin-right: auto;
     @media screen and (min-width: 1024px) {
       @include size(65%, auto);
+      max-width: none;
+      margin-left: 0;
+      margin-right: 0;
     }
   }
   &__links {
@@ -277,6 +292,9 @@ export default defineComponent({
     @include size(100%, 100%);
     margin-top: rem(20px);
     margin-right: rem(0px);
+    max-width: min(90vw, 320px);
+    margin-left: auto;
+    margin-right: auto;
     padding: rem(8px) rem(14px);
     background-color: rgba(255, 255, 255, 0.04);
     border-radius: 999px;

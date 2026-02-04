@@ -367,4 +367,34 @@ export default defineComponent({
   color: var(--tertiary);
 }
 
+@media (max-width: 768px) {
+  .project__title {
+    font-size: $text-xl;
+    flex-wrap: wrap;
+    gap: rem(6px);
+  }
+  .project__description,
+  .project__actions,
+  .project__stack {
+    padding-left: 0;
+  }
+  .project__actions {
+    flex-wrap: wrap;
+  }
+  .project__stack {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .project__media {
+    margin-left: 0;
+    box-shadow: var(--shadow) 3px 3px 0,
+      var(--shadow) 4px 4px 0,
+      var(--shadow) 5px 5px 0,
+      var(--shadow) 6px 6px 0;
+  }
+  .window__image {
+    max-height: 200px;
+  }
+}
+
 </style>
