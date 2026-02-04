@@ -221,15 +221,16 @@ export default defineComponent({
 }
 .hero {
   transform: translateY(0) !important;
-  @include flex(center, center, column);
+  @include flex(flex-start, center, column);
   @include size(100%, auto);
   margin-top: auto;
   color: var(--primary);
   visibility: hidden;
   position: relative;
   max-width: $max-width;
-  padding: rem(20px) rem(16px) calc(#{$nav-height} + #{rem(24px)});
+  padding: rem(20px) rem(16px) calc(#{$nav-height} + #{rem(48px)});
   min-height: calc(100svh - #{$nav-height});
+  gap: rem(20px);
   @media screen and (min-width: 1024px) {
     flex-direction: row;
     align-items: center;
@@ -282,7 +283,7 @@ export default defineComponent({
     align-items: center;
     gap: rem(12px);
     width: 100%;
-    margin-top: rem(20px);
+    margin-top: rem(12px);
     :deep(.button-container) {
       width: 100%;
       max-width: rem(320px);
@@ -321,6 +322,29 @@ export default defineComponent({
       color: var(--tertiary);
       z-index: 0;
     }
+  }
+}
+
+@media (max-width: 640px) {
+  .hero :deep(.text-6xl) {
+    font-size: clamp(2.1rem, 8.8vw, 3.1rem);
+    line-height: 1.1;
+  }
+  .hero__text {
+    margin-top: rem(10px);
+  }
+}
+
+@media (max-width: 420px) {
+  .hero {
+    padding-top: rem(12px);
+    gap: rem(16px);
+  }
+  .hero :deep(.text-6xl) {
+    font-size: clamp(2rem, 9.5vw, 2.8rem);
+  }
+  .hero__buttons {
+    margin-top: rem(8px);
   }
 }
 </style>

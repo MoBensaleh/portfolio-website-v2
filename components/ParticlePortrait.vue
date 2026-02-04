@@ -514,18 +514,31 @@ defineExpose({
   touch-action: none;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 0;
   display: block;
 }
 
 @media (max-width: 900px) {
   .particle-portrait {
-    width: min(86vw, 460px);
+    width: min(84vw, 420px);
   }
 }
 
 @media (max-width: 600px) {
   .particle-portrait {
-    width: min(90vw, 360px);
+    width: min(80vw, 320px);
+  }
+}
+
+@media (max-width: 420px) {
+  .particle-portrait {
+    width: min(76vw, 280px);
+  }
+}
+
+@media (max-height: 700px) {
+  .particle-portrait {
+    width: min(72vw, 280px);
   }
 }
 
