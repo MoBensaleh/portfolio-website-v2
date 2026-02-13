@@ -10,9 +10,9 @@
           <span class="about__pill">Based in {{ about.city }}, {{ about.province }}, {{ about.country }}</span>
           <span class="about__pill">{{ about.roles[0] }}</span>
         </div>
-        <div class="w-100 lg:mt-20">
+        <div class="w-100 lg:mt-20 about__content">
           <div
-            class="flex justify-between items-center flex-col lg:items-start lg:flex-row"
+            class="flex justify-between items-center flex-col lg:items-center lg:flex-row"
           >
             <div>
               <div
@@ -53,51 +53,10 @@
             >
               <rich-text tag="div" class="text-lg">
                 <p>
-                  Hi there! I’m Mo, a recent graduate from the
-                  <b>University of Saskatchewan</b> and an enthusiastic ML
-                  Engineer at
-                  <b
-                    ><a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href="https://rbcborealis.com/"
-                      >RBC Borealis AI</a
-                    ></b
-                  >, where I get to blend my passion for Generative AI, Machine
-                  Learning, and cutting-edge technology into meaningful solutions.
-                  From building distributed systems to experimenting with the
-                  latest in AI research, I’m constantly chasing innovation to make
-                  a real-world impact.
-                </p>
-
-                <p>
-                  With a strong foundation in <b>Python</b>, <b>TensorFlow</b>,
-                  <b>PyTorch</b>, <b>React</b>, and <b>TypeScript</b>, I thrive
-                  at the intersection of <b>engineering</b> and
-                  <b>creativity</b>. Whether it’s crafting robust machine
-                  learning models or building intuitive full-stack applications,
-                  I love diving into challenging projects that push boundaries.
-                </p>
-
-                <p>
-                  Beyond the code, you’ll often find me brainstorming ways to
-                  enhance <b>Generative AI workflows</b> or experimenting with
-                  <b>new tools and frameworks</b>
-                  to bring ideas to life. I’m also a strong believer in
-                  collaboration and enjoy connecting with like-minded folks who
-                  share a love for tech, learning, and innovation.
-                </p>
-                <p>
-                  ☕ When I’m not coding or exploring the latest ML frameworks,
-                  you can find me discovering new coffee shops, brainstorming at
-                  hackathons, or tinkering with side projects for fun. Thanks
-                  for dropping by my portfolio—feel free to reach out if you’d
-                  like to chat about AI, web dev, or the next great coffee spot!
-                </p>
-
-                <p>
-                  I’d love to connect, collaborate, and create! Let’s build
-                  something amazing together. 🚀
+                  Hi, I’m Mo—a machine learning engineer who builds
+                  production‑ready AI systems and the software around them.
+                  Based in Calgary. If you want to collaborate or just say hi,
+                  I’m always open to a conversation.
                 </p>
               </rich-text>
             </div>
@@ -245,6 +204,12 @@ export default defineComponent({
     color: var(--primary);
     background: rgba(255, 255, 255, 0.06);
     border: rem(1px) solid rgba(255, 255, 255, 0.08);
+  }
+  &__content {
+    margin-top: rem(16px);
+    @media screen and (min-width: 1024px) {
+      margin-top: rem(32px);
+    }
   }
 }
 
